@@ -1,0 +1,3316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Wedimora — infinite loop</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0d0718;
+    color:white;
+    min-height:100vh;
+}
+
+button{
+    cursor:pointer;
+}
+
+.screen{
+    display:none;
+    min-height:100vh;
+}
+
+.active{
+    display:block;
+}
+
+/* WELCOME */
+
+#welcome{
+    text-align:center;
+    padding:80px 25px;
+    background:radial-gradient(circle at top,#392060,#0d0718 65%);
+}
+
+.moon{
+    width:75px;
+    height:75px;
+    background:#fff;
+    border-radius:50%;
+    margin:0 auto 30px;
+    box-shadow:0 0 30px #fff;
+    position:relative;
+}
+
+.moon:after{
+    content:"";
+    position:absolute;
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background:#392060;
+    left:25px;
+    top:-10px;
+}
+
+.logo{
+    font-size:38px;
+    letter-spacing:5px;
+    margin-bottom:10px;
+}
+
+.tagline{
+    color:#d8c8ff;
+    margin-bottom:35px;
+}
+
+.description{
+    max-width:450px;
+    margin:auto;
+    color:#c5b9d8;
+    line-height:1.6;
+    margin-bottom:35px;
+}
+
+.main-btn{
+    width:100%;
+    max-width:350px;
+    padding:15px;
+    border:none;
+    border-radius:30px;
+    background:#8d5cff;
+    color:white;
+    font-size:16px;
+    margin:7px;
+}
+
+.secondary-btn{
+    width:100%;
+    max-width:350px;
+    padding:14px;
+    border:1px solid #8d5cff;
+    border-radius:30px;
+    background:transparent;
+    color:white;
+    font-size:16px;
+    margin:7px;
+}
+
+/* FORMS */
+
+.form-container{
+    max-width:450px;
+    margin:auto;
+    padding:45px 25px;
+}
+
+.form-container h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+input,textarea,select{
+    width:100%;
+    padding:14px;
+    margin:8px 0;
+    border-radius:12px;
+    border:1px solid #4d3968;
+    background:#191027;
+    color:white;
+    outline:none;
+}
+
+textarea{
+    min-height:180px;
+    resize:vertical;
+}
+
+input:focus,textarea:focus,select:focus{
+    border-color:#8d5cff;
+}
+
+.back-btn{
+    background:none;
+    border:none;
+    color:#bda5ff;
+    margin-top:15px;
+    font-size:15px;
+}
+
+/* HOME */
+
+#home{
+    padding-bottom:80px;
+}
+
+.topbar{
+    padding:20px;
+    border-bottom:1px solid #292039;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    background:#0d0718;
+    z-index:10;
+}
+
+.topbar h2{
+    letter-spacing:3px;
+}
+
+.create-top-btn{
+    background:#8d5cff;
+    border:none;
+    color:white;
+    padding:9px 14px;
+    border-radius:20px;
+}
+
+.home-content{
+    max-width:600px;
+    margin:auto;
+    padding:25px 15px;
+}
+
+.welcome-text{
+    margin-bottom:20px;
+}
+
+.empty-message{
+    text-align:center;
+    color:#9f91b5;
+    padding:60px 20px;
+}
+
+/* DREAM CARD */
+
+.dream-card{
+    background:#171021;
+    border:1px solid #302342;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.dream-user{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#8d5cff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.username{
+    font-weight:bold;
+}
+
+.dream-date{
+    font-size:12px;
+    color:#8f839e;
+}
+
+.dream-title{
+    font-size:21px;
+    margin-bottom:10px;
+}
+
+.dream-story{
+    color:#d4cbdc;
+    line-height:1.6;
+    white-space:pre-wrap;
+}
+
+.category{
+    display:inline-block;
+    margin-top:15px;
+    padding:6px 12px;
+    background:#2a1b40;
+    color:#cbb5ff;
+    border-radius:20px;
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    margin-top:18px;
+    border-top:1px solid #2c2238;
+    padding-top:14px;
+}
+
+.action-btn{
+    flex:1;
+    border:none;
+    background:#21172d;
+    color:#cfc5d8;
+    padding:10px 5px;
+    border-radius:10px;
+}
+
+.action-btn:hover{
+    background:#302044;
+}
+
+.liked{
+    color:#ff7da8;
+}
+
+/* COMMENTS */
+
+.comments-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.comments-title{
+    font-weight:bold;
+}
+
+.close-section-btn{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:50%;
+    background:#21172d;
+    color:#cfc5d8;
+    font-size:18px;
+    line-height:32px;
+}
+
+.close-section-btn:hover{
+    background:#302044;
+    color:white;
+}
+
+.comments-section{
+    margin-top:15px;
+    padding-top:15px;
+    border-top:1px solid #2c2238;
+}
+
+.comment{
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.comment-avatar{
+    width:32px;
+    height:32px;
+    min-width:32px;
+    border-radius:50%;
+    background:#624092;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.comment-body{
+    background:#21172d;
+    border-radius:12px;
+    padding:9px 12px;
+    flex:1;
+}
+
+.comment-name{
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+.comment-text{
+    color:#d5ccdd;
+    font-size:14px;
+    line-height:1.4;
+}
+
+.comment-input-area{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+}
+
+.comment-input{
+    flex:1;
+    margin:0;
+    padding:11px;
+}
+
+.comment-post-btn{
+    border:none;
+    background:#8d5cff;
+    color:white;
+    padding:0 15px;
+    border-radius:12px;
+}
+
+.no-comments{
+    color:#897d96;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+/* CREATE */
+
+.create-container{
+    max-width:600px;
+    margin:auto;
+    padding:35px 20px;
+}
+
+.create-container h1{
+    margin-bottom:25px;
+}
+
+.char-count{
+    text-align:right;
+    color:#82758e;
+    font-size:12px;
+}
+
+/* NAV */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:65px;
+    background:#130c1d;
+    border-top:1px solid #302342;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+
+.nav-btn{
+    background:none;
+    border:none;
+    color:#a99db7;
+    font-size:13px;
+}
+
+.nav-btn.active-nav{
+    color:#b58cff;
+}
+
+
+/* SEARCH */
+/* NOTIFICATIONS */
+/* LIGHT / DARK MODE */
+applyTheme();
+
+/* PROFILE */
+
+.profile-topbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:18px 20px;
+    border-bottom:1px solid #292039;
+}
+
+.profile-back-btn{
+    border:none;
+    background:#21172d;
+    color:white;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    font-size:20px;
+}
+
+.profile-topbar h2{
+    letter-spacing:2px;
+    font-size:20px;
+}
+
+.profile-container{
+    max-width:600px;
+    margin:auto;
+    padding:30px 20px 90px;
+}
+
+.profile-header{
+    text-align:center;
+    padding:10px 0 25px;
+}
+
+.profile-avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#8d5cff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 15px;
+    font-size:34px;
+    font-weight:bold;
+}
+
+.profile-name{
+    font-size:24px;
+    margin-bottom:5px;
+}
+
+.profile-username{
+    color:#9f91b5;
+    margin-bottom:10px;
+}
+
+.profile-bio{
+    color:#d4cbdc;
+    line-height:1.5;
+    max-width:430px;
+    margin:0 auto 18px;
+}
+
+.profile-stats{
+    display:flex;
+    justify-content:center;
+    gap:35px;
+    margin:20px 0;
+}
+
+.profile-stat{
+    text-align:center;
+}
+
+.profile-stat strong{
+    display:block;
+    font-size:19px;
+}
+
+.profile-stat span{
+    color:#9f91b5;
+    font-size:13px;
+}
+
+.profile-edit-btn{
+    border:1px solid #8d5cff;
+    background:transparent;
+    color:white;
+    padding:10px 25px;
+    border-radius:20px;
+}
+
+.my-dreams-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:25px;
+}
+
+.profile-section-title{
+    margin:0 0 15px;
+    font-size:19px;
+}
+
+.my-dreams-count{
+    color:#9f91b5;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+.profile-dream{
+    background:#171021;
+    border:1px solid #302342;
+    border-radius:15px;
+    padding:16px;
+    margin-bottom:12px;
+}
+
+.profile-dream-top{
+    margin-bottom:8px;
+}
+
+.profile-dream-title{
+    font-size:17px;
+    margin-bottom:4px;
+}
+
+.profile-dream-date{
+    color:#80758e;
+    font-size:11px;
+}
+
+.profile-dream-story{
+    color:#d4cbdc;
+    line-height:1.5;
+    white-space:pre-wrap;
+}
+
+.profile-dream-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:12px;
+}
+
+.profile-dream-category{
+    color:#bda5ff;
+    font-size:13px;
+}
+
+.profile-dream-stats{
+    color:#9f91b5;
+    font-size:12px;
+}
+
+.profile-empty{
+    color:#9f91b5;
+    text-align:center;
+    padding:30px 10px;
+}
+
+.edit-profile-box{
+    margin-top:20px;
+    padding:18px;
+    background:#171021;
+    border:1px solid #302342;
+    border-radius:15px;
+}
+
+.edit-profile-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.edit-profile-box h3{
+    margin:0;
+}
+
+.edit-close-btn{
+    border:none;
+    background:#21172d;
+    color:#cfc5d8;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    font-size:18px;
+}
+
+.edit-close-btn:hover{
+    background:#302044;
+    color:white;
+}
+
+.profile-save-btn{
+    width:100%;
+    border:none;
+    background:#8d5cff;
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    margin-top:8px;
+}
+
+
+/* EXPLORE / SEARCH */
+.explore-container{max-width:600px;margin:auto;padding:25px 15px 90px}
+.search-box{display:flex;gap:8px;margin:15px 0 22px}
+.search-box input{margin:0}
+.search-btn{border:none;background:#8d5cff;color:white;padding:0 18px;border-radius:12px}
+.search-hint{color:#9588a4;font-size:14px;margin-bottom:15px}
+.search-result{background:#171021;border:1px solid #302342;border-radius:16px;padding:16px;margin-bottom:12px;cursor:pointer}
+.search-result-title{font-size:18px;font-weight:bold;margin-bottom:7px}
+.search-result-meta{font-size:13px;color:#a99db7;margin-bottom:8px}
+.search-result-text{color:#d4cbdc;line-height:1.5}
+
+/* NOTIFICATIONS */
+.notification-container{max-width:600px;margin:auto;padding:25px 15px 90px}
+.notification{display:flex;gap:12px;align-items:flex-start;background:#171021;border:1px solid #302342;border-radius:16px;padding:15px;margin-bottom:12px}
+.notification-icon{width:42px;height:42px;min-width:42px;border-radius:50%;background:#2a1b40;display:flex;align-items:center;justify-content:center}
+.notification-text{color:#d9d0e1;line-height:1.45;font-size:14px}
+.notification-time{font-size:12px;color:#84788f;margin-top:5px}
+.empty-state{padding:55px 20px;text-align:center;color:#91849f}
+
+/* SETTINGS */
+.settings-container{max-width:600px;margin:auto;padding:25px 15px 90px}
+.setting-card{background:#171021;border:1px solid #302342;border-radius:16px;overflow:hidden}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:17px;border-bottom:1px solid #2c2238}
+.setting-row:last-child{border-bottom:none}
+.setting-info strong{display:block;margin-bottom:4px}
+.setting-info span{font-size:13px;color:#92859e}
+.toggle{width:48px;height:27px;border-radius:20px;border:none;background:#3b3048;position:relative}
+.toggle:after{content:"";position:absolute;width:21px;height:21px;border-radius:50%;background:white;top:3px;left:3px;transition:.2s}
+.toggle.on{background:#8d5cff}
+.toggle.on:after{left:24px}
+
+/* COMMON TOPBAR */
+.page-topbar{padding:18px 20px;border-bottom:1px solid #292039;display:flex;align-items:center;gap:14px;position:sticky;top:0;background:#0d0718;z-index:10}
+.page-topbar h2{letter-spacing:2px;font-size:21px}
+.page-back{border:none;background:none;color:#c4afff;font-size:25px;padding:0 5px}
+
+/* FOLLOW */
+.follow-btn{border:none;background:#8d5cff;color:white;padding:7px 12px;border-radius:18px;font-size:12px;margin-left:auto}
+.following-btn{background:#302044;color:#cdbdff}
+
+
+/* LIGHT MODE */
+body.light-mode{background:#f5f1fa;color:#21182a}
+body.light-mode .topbar,
+body.light-mode .page-topbar{background:#f5f1fa;border-color:#ddd3e8}
+body.light-mode .bottom-nav{background:#ffffff;border-color:#ddd3e8}
+body.light-mode .dream-card,
+body.light-mode .search-result,
+body.light-mode .notification,
+body.light-mode .setting-card,
+body.light-mode .profile-dream{background:#ffffff;border-color:#e0d7e8}
+body.light-mode .dream-story,
+body.light-mode .search-result-text,
+body.light-mode .notification-text{color:#40374a}
+body.light-mode input,body.light-mode textarea,body.light-mode select{background:#ffffff;color:#241a2d;border-color:#d8cce2}
+body.light-mode .action-btn{background:#f0eaf5;color:#4b3e55}
+body.light-mode .comments-section{border-color:#e0d7e8}
+body.light-mode .comment-body{background:#f0eaf5}
+body.light-mode #welcome{background:radial-gradient(circle at top,#d9c5ff,#f5f1fa 65%)}
+body.light-mode .tagline,body.light-mode .description{color:#665779}
+body.light-mode .moon:after{background:#d9c5ff}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .logo{
+        font-size:31px;
+    }
+
+    .topbar h2{
+        font-size:19px;
+    }
+
+    .create-top-btn{
+        font-size:12px;
+    }
+
+    .actions{
+        gap:5px;
+    }
+
+    .action-btn{
+        font-size:12px;
+    }
+
+}
+
+
+/* ===== WEDIMORA NEXT FEATURES ===== */
+:root{--bg:#090909;--panel:#121212;--panel2:#191919;--line:#2a2a2a;--text:#f5f5f5;--muted:#9b9b9b;--accent:#ffffff;--soft:#222222}
+body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button{transition:transform .12s ease,background .15s ease,opacity .15s ease}
+button:active{transform:scale(.97)}
+.main-btn,.search-btn,.profile-save-btn,.comment-post-btn,.create-top-btn{background:#fff!important;color:#000!important}
+.secondary-btn,.profile-edit-btn{border-color:#777!important;color:#fff!important}
+.topbar,.page-topbar,.profile-topbar{background:#090909!important;border-color:#292929!important}
+.dream-card,.search-result,.notification,.setting-card,.profile-dream,.edit-profile-box{background:#111!important;border-color:#292929!important}
+.action-btn,.close-section-btn,.edit-close-btn,.profile-back-btn{background:#1b1b1b!important;color:#eee!important}
+.category{background:#202020!important;color:#fff!important}
+.bottom-nav{background:#0d0d0d!important;border-color:#292929!important}
+.nav-btn{color:#8f8f8f!important}.nav-btn.active-nav{color:#fff!important}
+.avatar,.profile-avatar,.comment-avatar{background:#242424!important;color:#fff}
+input,textarea,select{background:#111!important;color:#fff!important;border-color:#353535!important}
+input:focus,textarea:focus,select:focus{border-color:#aaa!important}
+
+.category-bar{display:flex;gap:8px;overflow-x:auto;padding:3px 0 15px;scrollbar-width:none}.category-bar::-webkit-scrollbar{display:none}
+.cat-chip{flex:0 0 auto;border:1px solid #333;background:#111;color:#bbb;border-radius:999px;padding:8px 12px;font-size:12px;cursor:pointer}.cat-chip.active{background:#fff;color:#000;border-color:#fff}
+.feed-label{display:flex;align-items:center;justify-content:space-between;margin:4px 0 14px}.feed-label span{color:#8f8f8f;font-size:13px}
+
+.chat-overlay{position:fixed;inset:0;z-index:1000;display:none;background:rgba(0,0,0,.55)}
+.chat-overlay.open{display:block}
+.chat-panel{position:absolute;left:0;top:0;bottom:0;width:min(430px,92vw);background:#0c0c0c;border-right:1px solid #333;box-shadow:18px 0 50px rgba(0,0,0,.45);transform:translateX(-102%);transition:transform .22s ease;display:flex;flex-direction:column}
+.chat-overlay.open .chat-panel{transform:translateX(0)}
+.chat-head{display:flex;align-items:center;gap:12px;padding:18px;border-bottom:1px solid #292929}.chat-head h2{font-size:20px;letter-spacing:1px}.chat-close{margin-left:auto;border:0;background:#1b1b1b;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px}
+.chat-tools{display:flex;gap:8px;padding:12px 15px;border-bottom:1px solid #222}.chat-tool{border:1px solid #333;background:#151515;color:#ddd;border-radius:10px;padding:9px 11px;font-size:12px}
+.chat-list{flex:1;overflow:auto;padding:10px}.chat-row{display:flex;gap:11px;align-items:center;padding:13px;border-radius:13px}.chat-row:hover{background:#171717}.chat-avatar{width:42px;height:42px;border-radius:50%;background:#252525;display:grid;place-items:center;font-weight:bold}.chat-meta{min-width:0}.chat-name{font-weight:bold}.chat-preview{color:#888;font-size:12px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-compose{padding:12px;border-top:1px solid #292929;display:flex;gap:8px}.chat-compose input{margin:0;flex:1}.chat-send{border:0;background:#fff;color:#000;border-radius:11px;padding:0 15px;font-weight:bold}
+.chat-room{display:none;position:absolute;inset:0;background:#0b0b0b;flex-direction:column}.chat-room.open{display:flex}.room-head{display:flex;align-items:center;gap:10px;padding:15px;border-bottom:1px solid #292929}.room-back{border:0;background:#181818;color:#fff;width:36px;height:36px;border-radius:50%}.room-actions{margin-left:auto;display:flex;gap:6px}.room-actions button{border:1px solid #333;background:#161616;color:#fff;border-radius:9px;padding:8px}.messages{flex:1;overflow:auto;padding:18px}.bubble{max-width:78%;padding:10px 13px;border-radius:16px;margin:7px 0;background:#1c1c1c;color:#eee}.bubble.mine{margin-left:auto;background:#fff;color:#000}.message-time{font-size:10px;opacity:.55;margin-top:4px}.room-compose{display:flex;gap:7px;padding:10px;border-top:1px solid #292929}.attach-btn,.effect-btn{border:1px solid #333;background:#151515;color:#fff;border-radius:10px;padding:0 11px}.room-compose input{margin:0;flex:1}.night-effect{position:absolute;inset:0;pointer-events:none;overflow:hidden}.night-star{position:absolute;font-size:18px;animation:floatNight 1.8s ease-out forwards;opacity:0}.night-message{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);background:rgba(255,255,255,.96);color:#000;border-radius:18px;padding:13px 18px;font-weight:bold;animation:nightCard 1.9s ease forwards;white-space:nowrap}.sleep-wish{margin:12px;border:1px solid #333;border-radius:14px;padding:12px;background:#121212;color:#ddd}.sleep-wish button{margin:5px 5px 0 0;border:1px solid #444;background:#1c1c1c;color:#fff;border-radius:9px;padding:7px 9px}
+@keyframes floatNight{0%{opacity:0;transform:translateY(20px) scale(.7)}20%{opacity:1}100%{opacity:0;transform:translateY(-150px) scale(1.2) rotate(15deg)}}
+@keyframes nightCard{0%{opacity:0;transform:translate(-50%,-30%) scale(.92)}18%{opacity:1;transform:translate(-50%,-50%) scale(1)}78%{opacity:1}100%{opacity:0;transform:translate(-50%,-65%) scale(.98)}}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1200;display:none;align-items:center;justify-content:center;padding:18px}.modal-backdrop.open{display:flex}.modal{width:min(480px,100%);background:#111;border:1px solid #333;border-radius:18px;padding:20px}.modal h3{margin-bottom:12px}.modal p{color:#999;font-size:13px;line-height:1.5;margin-bottom:14px}.modal-actions{display:flex;gap:8px;margin-top:14px}.modal-actions button{flex:1;padding:11px;border-radius:11px;border:1px solid #333;background:#1a1a1a;color:#fff}.modal-actions .danger{background:#fff;color:#000}
+.setting-group-title{font-size:12px;color:#777;text-transform:uppercase;letter-spacing:1.5px;margin:22px 2px 9px}.setting-note{padding:13px 15px;color:#999;font-size:13px;line-height:1.5;border:1px solid #292929;border-radius:13px;background:#111}
+@media(max-width:500px){.chat-panel{width:94vw}.chat-tools{overflow:auto}.cat-chip{font-size:11px}}
+
+
+/* ================================================================
+   WEDIMORA PERFORMANCE + SEARCH + PROFILE EXTENSION
+   ================================================================ */
+#searchResults{min-height:20px}
+.search-empty{padding:24px;text-align:center;border:1px solid #2a2a2a;border-radius:16px;color:#aaa;background:#111}
+.search-section-title{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;color:#888;margin:18px 4px 10px}
+.search-result{transition:transform .16s ease, border-color .16s ease, background .16s ease}
+.search-result:hover{transform:translateY(-1px);border-color:#666}
+.search-result-user{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.search-result-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#000;font-weight:700}
+.search-result-open{margin-top:10px;border:1px solid #555;background:transparent;color:inherit;border-radius:10px;padding:7px 10px;cursor:pointer}
+.profile-post-count-note{font-size:12px;color:#888;margin:5px 0 12px}
+.profile-dream-empty{padding:25px;text-align:center;border:1px dashed #555;border-radius:16px;color:#999}
+.category-bar{scrollbar-width:none}
+.category-bar::-webkit-scrollbar{display:none}
+.dream-card{contain:content}
+.dream-card .dream-story{overflow-wrap:anywhere;word-break:break-word}
+.search-result-text{overflow-wrap:anywhere;word-break:break-word}
+.smooth-action{transition:opacity .15s ease,transform .15s ease}
+.smooth-action:active{transform:scale(.97);opacity:.8}
+@media(max-width:600px){.search-box{position:sticky;top:0;z-index:5;padding-top:8px}.search-result{padding:14px}.search-btn{min-width:78px}}
+
+
+/* ===== WEDIMORA AESTHETIC BRAND + CHAT V2 ===== */
+.dreamora-mark{display:inline-flex;align-items:center;gap:9px;line-height:1;text-decoration:none;color:#f7f7f7}
+.dreamora-symbol{width:31px;height:31px;border:1px solid #5c5c5c;border-radius:50%;position:relative;display:inline-block;box-shadow:0 0 18px rgba(255,255,255,.08);overflow:hidden}
+.dreamora-symbol:before{content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:#f7f7f7;left:2px;top:3px}
+.dreamora-symbol:after{content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:#0b0b0b;left:10px;top:-2px}
+.dreamora-word{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:28px;letter-spacing:-1.7px;position:relative}
+.dreamora-word .d-letter{display:inline-block;transform:scaleX(.91);margin-right:-2px}
+.dreamora-word .o-letter{display:inline-block;font-style:italic;transform:translateY(1px) scaleX(.88);margin-left:-2px}
+.dreamora-word .star-cut{display:inline-block;font-size:9px;vertical-align:super;margin-left:-5px;margin-right:-2px}
+.brand-tag{font-size:8px;letter-spacing:3.2px;color:#777;margin-top:5px;text-transform:uppercase}
+.logo-lockup{display:inline-flex;flex-direction:column;align-items:flex-start}
+#welcome .dreamora-mark{margin:0 auto 8px}
+#welcome .dreamora-symbol{width:58px;height:58px;margin-right:7px}
+#welcome .dreamora-symbol:before,#welcome .dreamora-symbol:after{width:44px;height:44px}
+#welcome .dreamora-symbol:before{left:4px;top:7px}
+#welcome .dreamora-symbol:after{left:18px;top:1px}
+#welcome .dreamora-word{font-size:52px;letter-spacing:-3.5px}
+.topbar .dreamora-word{font-size:25px}
+
+/* Refined monochrome chat */
+.chat-overlay{background:rgba(0,0,0,.72);backdrop-filter:blur(7px)}
+.chat-panel{width:min(455px,94vw);background:#090909;border-right:1px solid #2d2d2d;box-shadow:24px 0 70px rgba(0,0,0,.65)}
+.chat-head{padding:17px 18px 12px;border-bottom:0;gap:10px}
+.chat-brand-dot{width:34px;height:34px;border:1px solid #444;border-radius:50%;display:grid;place-items:center;font-size:17px;background:#111}
+.chat-head h2{font-family:Georgia,'Times New Roman',serif;font-size:24px;letter-spacing:-.5px}
+.chat-close{background:#141414;border:1px solid #2f2f2f;transition:.18s}
+.chat-close:hover,.chat-tool:hover,.chat-row:hover,.room-actions button:hover,.attach-btn:hover,.effect-btn:hover{background:#202020}
+.chat-subtitle{display:block;color:#6f6f6f;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.chat-tools{padding:7px 14px 12px;border-bottom:1px solid #202020;gap:7px}
+.chat-tool{border:1px solid #303030;background:#111;color:#d9d9d9;border-radius:999px;padding:8px 12px;transition:.18s}
+.chat-search-wrap{padding:10px 14px 4px}
+.chat-search-wrap input{margin:0;border-radius:999px;background:#121212;border-color:#292929;padding:11px 14px;font-size:13px}
+.chat-tabs{display:flex;padding:6px 14px 4px;gap:18px;border-bottom:1px solid #1f1f1f}
+.chat-tab{border:0;background:transparent;color:#666;padding:8px 2px;font-size:12px;position:relative}
+.chat-tab.active{color:#fff}.chat-tab.active:after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1px;background:#fff}
+.chat-list{padding:8px 9px}
+.chat-row{padding:12px 10px;border-radius:15px;transition:.18s;border:1px solid transparent}
+.chat-row:active{transform:scale(.99)}
+.chat-avatar{width:46px;height:46px;background:#111;border:1px solid #343434;box-shadow:inset 0 0 0 1px #080808}
+.chat-name{font-size:14px}.chat-preview{color:#777;font-size:11px}.chat-time{margin-left:auto;color:#666;font-size:10px;align-self:flex-start;padding-top:2px}
+.chat-compose{padding:11px 13px 14px;border-top:1px solid #232323;background:#0a0a0a}
+.chat-compose input{background:#111;border-color:#2d2d2d;border-radius:14px}
+.chat-send{background:#f5f5f5;color:#050505;border-radius:13px;min-width:55px;transition:.18s}.chat-send:hover{background:#dcdcdc}
+.chat-room{background:#080808}
+.room-head{padding:12px 14px;border-bottom:1px solid #232323;background:rgba(8,8,8,.96);backdrop-filter:blur(10px)}
+.room-back{background:#111;border:1px solid #303030}
+.room-avatar{width:36px;height:36px;border-radius:50%;border:1px solid #3c3c3c;background:#151515;display:grid;place-items:center}
+.room-name{font-size:14px}.room-status{font-size:10px;color:#686868;margin-top:3px}
+.room-actions button{border:1px solid #303030;background:#111;color:#eee;border-radius:50%;width:34px;height:34px;padding:0;transition:.18s}
+.messages{padding:18px 14px 20px;background:radial-gradient(circle at 80% 12%,rgba(255,255,255,.035),transparent 26%)}
+.bubble{background:#161616;border:1px solid #292929;color:#eee;border-radius:17px 17px 17px 6px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.bubble.mine{background:#f3f3f3;color:#080808;border-color:#f3f3f3;border-radius:17px 17px 6px 17px}
+.message-time{color:inherit}
+.room-compose{padding:9px 10px 12px;border-top:1px solid #232323;background:#090909;align-items:center}
+.attach-btn,.effect-btn{width:38px;height:38px;padding:0;border-radius:50%;background:#121212;border-color:#303030}
+.room-compose input{border-radius:20px;background:#111;border-color:#2e2e2e;padding:11px 14px}
+.room-compose .chat-send{height:38px;border-radius:50%;min-width:38px;font-size:0;position:relative}
+.room-compose .chat-send:after{content:'↑';font-size:17px}
+.chat-extra-panel{display:none;padding:10px;border-top:1px solid #252525;background:#0d0d0d;grid-template-columns:repeat(4,1fr);gap:7px}
+.chat-extra-panel.open{display:grid}
+.extra-item{border:1px solid #2b2b2b;background:#141414;color:#ddd;border-radius:13px;padding:10px 5px;font-size:10px;text-align:center}
+.extra-item span{display:block;font-size:18px;margin-bottom:4px}
+.typing-dots{display:inline-flex;gap:3px}.typing-dots i{width:4px;height:4px;background:#777;border-radius:50%;animation:typingDot 1s infinite}.typing-dots i:nth-child(2){animation-delay:.15s}.typing-dots i:nth-child(3){animation-delay:.3s}
+@keyframes typingDot{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-2px)}}
+@media(max-width:500px){#welcome .dreamora-word{font-size:43px}.chat-panel{width:96vw}.chat-tools{overflow:auto}.chat-tabs{gap:13px}}
+
+
+/* ===== WEDIMORA V3 — custom wordmark + live chat ===== */
+:root{--dream-white:#f4f4f4;--dream-black:#070707;--dream-line:#292929;--dream-soft:#a0a0a0;--dream-glow:rgba(255,255,255,.13)}
+/* Custom brand treatment: a bespoke letter-by-letter wordmark, intentionally not based on a stock logo. */
+.dreamora-word{font-family:Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-2.6px;font-size:30px;line-height:1;display:inline-flex;align-items:baseline;filter:drop-shadow(0 0 10px rgba(255,255,255,.08))}
+.dreamora-word .d-letter{font-family:Georgia,'Times New Roman',serif;display:inline-block;font-size:1.13em;transform:scaleX(.83);transform-origin:right center;margin-right:-2px;font-weight:500}
+.dreamora-word .o-letter{font-family:Georgia,'Times New Roman',serif;display:inline-block;font-style:italic;font-size:1.08em;transform:translateY(1px) scaleX(.82);margin:0 -1px;position:relative}
+.dreamora-word .o-letter:after{content:'✦';position:absolute;font-style:normal;font-size:.27em;left:43%;top:39%;transform:translate(-50%,-50%);color:#fff;opacity:.9}
+.dreamora-word .star-cut{font-size:8px;vertical-align:super;margin-left:-3px;margin-right:0;opacity:.8}
+.dreamora-mark{display:flex;align-items:center;gap:9px}
+.dreamora-symbol{width:31px;height:31px;border:1px solid #5a5a5a;border-radius:50%;position:relative;display:inline-block;background:radial-gradient(circle at 58% 43%,#fff 0 3%,transparent 4%),#0c0c0c;box-shadow:0 0 18px rgba(255,255,255,.05)}
+.dreamora-symbol:before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#f2f2f2;left:5px;top:4px}
+.dreamora-symbol:after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#0c0c0c;left:10px;top:1px}
+.brand-tag{letter-spacing:3px}
+#home .dreamora-word{font-size:27px}
+#chatOverlay{z-index:9999}
+/* Live typing indicator: exactly three floating stars */
+.live-typing{display:flex;align-items:center;gap:6px;min-height:26px;padding:3px 8px 7px;color:#aaa;font-size:11px;opacity:0;transform:translateY(4px);transition:.18s ease}
+.live-typing.show{opacity:1;transform:translateY(0)}
+.typing-stars{display:flex;align-items:flex-end;gap:4px;height:20px}
+.typing-stars span{display:block;font-size:12px;line-height:1;animation:dreamStarFloat 1.15s ease-in-out infinite;opacity:.35}
+.typing-stars span:nth-child(2){font-size:15px;animation-delay:.18s}
+.typing-stars span:nth-child(3){font-size:10px;animation-delay:.36s}
+@keyframes dreamStarFloat{0%,100%{transform:translateY(3px) scale(.75);opacity:.25}50%{transform:translateY(-5px) scale(1);opacity:1}}
+.room-status.live{color:#ddd}
+.room-status.live:before{content:'●';font-size:7px;margin-right:5px;vertical-align:2px}
+.message-row{display:flex;flex-direction:column;margin:7px 0}
+.message-row.mine{align-items:flex-end}
+.message-row.theirs{align-items:flex-start}
+.message-sender{font-size:9px;color:#777;margin:0 8px 3px}
+.bubble{transition:transform .15s ease,opacity .15s ease}
+.bubble.new-message{animation:messageIn .2s ease both}
+@keyframes messageIn{from{opacity:0;transform:translateY(5px) scale(.98)}to{opacity:1;transform:none}}
+.chat-row.typing .chat-preview{color:#ddd}
+.chat-row.typing .chat-preview:before{content:'✦ ✦ ✦  ';font-size:8px;letter-spacing:1px}
+.live-note{font-size:9px;color:#5f5f5f;padding:0 15px 7px;line-height:1.4}
+.live-note strong{color:#888}
+/* Keep chat smooth and compact */
+.chat-panel,.chat-room,.messages{overscroll-behavior:contain}
+.room-compose input:focus{box-shadow:0 0 0 1px #444,0 0 18px rgba(255,255,255,.04)}
+.chat-send:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:500px){.dreamora-word{font-size:25px}.dreamora-mark{gap:7px}.dreamora-symbol{width:28px;height:28px}.live-note{font-size:8px}}
+
+
+/* ===== CHAT VISIBILITY FIX V4 ===== */
+#chatLauncher{display:none!important}
+#chatLauncher.show{display:none!important}
+#chatLauncher:hover{transform:translateY(-2px)}
+.live-typing{display:flex;align-items:center;gap:9px;min-height:0;height:0;overflow:hidden;padding:0 18px;color:#aaa;font-size:11px;transition:height .18s ease,padding .18s ease,opacity .18s ease;opacity:0}
+.live-typing.show{height:32px;padding:4px 18px;opacity:1}
+.typing-stars{display:flex;gap:3px;align-items:center}
+.typing-stars span{font-size:10px;opacity:.25;animation:typingStar .9s ease-in-out infinite}
+.typing-stars span:nth-child(2){animation-delay:.15s}
+.typing-stars span:nth-child(3){animation-delay:.30s}
+@keyframes typingStar{0%,100%{opacity:.2;transform:translateY(2px) scale(.8)}50%{opacity:1;transform:translateY(-3px) scale(1.15)}}
+.room-status.live{color:#fff}
+.live-note{margin:0 10px 5px;padding:8px 10px;border:1px solid #292929;border-radius:10px;color:#777;font-size:10px;line-height:1.4}
+.message-row{display:flex;flex-direction:column;margin:7px 0}.message-row.mine{align-items:flex-end}.message-row.theirs{align-items:flex-start}.message-sender{font-size:9px;color:#777;margin:0 8px 2px}.new-message{animation:messageIn .16s ease-out}@keyframes messageIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+</style>
+
+<style id="dreamora-chat-v5-style">
+.chat-search-wrap{padding:10px 15px}.chat-search-wrap input{width:100%;box-sizing:border-box;margin:0}
+.chat-tabs{display:flex;gap:4px;padding:8px 12px;border-bottom:1px solid #222}.chat-tab{flex:1;border:0;background:transparent;color:#777;padding:8px 4px;border-radius:9px;font-size:11px;cursor:pointer}.chat-tab.active{background:#1b1b1b;color:#fff}
+.chat-extra-panel{display:none;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px;border-top:1px solid #222;background:#101010}.chat-extra-panel.open{display:grid}.extra-item{border:1px solid #2e2e2e;background:#171717;color:#ddd;border-radius:10px;padding:9px 4px;font-size:11px}.extra-item span{display:block;font-size:17px;margin-bottom:3px}
+.sticker-panel{display:none;position:absolute;bottom:62px;left:10px;right:10px;background:#141414;border:1px solid #333;border-radius:15px;padding:10px;box-shadow:0 12px 30px #000}.sticker-panel.open{display:flex;flex-wrap:wrap;gap:7px}.sticker-btn{border:0;background:#202020;border-radius:10px;font-size:23px;width:42px;height:42px;cursor:pointer}.voice-btn.recording{background:#fff;color:#000;animation:pulseVoice .9s infinite alternate}@keyframes pulseVoice{from{transform:scale(1)}to{transform:scale(1.08)}}
+.one-time-note{font-size:10px;color:#777;text-align:center;margin-top:4px}.message-media{max-width:210px;border-radius:12px;display:block;margin-top:4px}.voice-bubble{display:flex;align-items:center;gap:8px}.voice-bubble audio{max-width:190px}
+@media(max-width:500px){.chat-extra-panel{grid-template-columns:repeat(2,1fr)}.room-actions button{padding:7px}}
+
+/* ===== CHAT V7 — topbar only ===== */
+.dreamora-chat-top-btn{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  min-width:86px;
+  margin-left:8px!important;
+}
+@media(max-width:560px){
+  .dreamora-chat-top-btn{min-width:72px;padding:9px 10px!important;font-size:12px!important}
+}
+</style>
+<style>
+/* ===== WEDIMORA MASTER FEATURE FRONTEND ===== */
+.wm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);z-index:9998;display:none;align-items:center;justify-content:center;padding:18px}
+.wm-overlay.open{display:flex}
+.wm-modal{width:min(720px,100%);max-height:88vh;overflow:auto;background:#111;border:1px solid #332348;border-radius:22px;box-shadow:0 20px 80px #000;padding:20px}
+.wm-modal h2{margin-bottom:6px}.wm-muted{color:#9f91b5;font-size:13px}.wm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:15px}
+.wm-card{background:#17121f;border:1px solid #2d203a;border-radius:16px;padding:14px}.wm-card button,.wm-action{width:100%;margin-top:9px;padding:10px;border:1px solid #3d2a50;background:#21172c;color:#fff;border-radius:11px}
+.wm-close{float:right;background:transparent;border:0;color:#aaa;font-size:22px;cursor:pointer}.wm-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #241b2e}
+.wm-row:last-child{border-bottom:0}.wm-input,.wm-select{width:100%;padding:11px;border-radius:10px;border:1px solid #3b2b49;background:#0d0b10;color:#fff;margin-top:7px}
+.wm-pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#251733;color:#d7b8ff;font-size:12px;margin:3px}
+.wm-purple{color:#d7b8ff}.wm-danger{border-color:#6b2636!important;background:#2a1218!important}.wm-success{border-color:#294f39!important;background:#13251b!important}
+.wm-menu-btn{position:fixed;right:18px;bottom:78px;z-index:8000;width:48px;height:48px;border-radius:50%;border:1px solid #4b3262;background:#171020;color:#fff;box-shadow:0 8px 25px #000;font-size:19px}
+.wm-tabs{display:flex;gap:7px;overflow:auto;margin:14px 0}.wm-tab{white-space:nowrap;padding:8px 12px;border-radius:999px;border:1px solid #382747;background:#16101d;color:#bbb}.wm-tab.active{background:#fff;color:#111}
+.wm-list{display:grid;gap:8px;margin-top:12px}.wm-item{padding:12px;border:1px solid #2c2136;border-radius:13px;background:#151018}
+@media(max-width:600px){.wm-grid{grid-template-columns:1fr}.wm-modal{padding:15px}}
+</style>
+</head>
+
+<body>
+
+<!--
+WEDIMORA MASTER FEATURE NOTE:
+This file adds the complete planned frontend control layer (social/search,
+dream controls, Memorie, safety/reporting, privacy controls, QR/share and
+insights UI) while preserving the existing prototype.
+Real multi-user authentication, RLS, storage, realtime chat, notifications,
+follow requests and moderation enforcement MUST be implemented in Supabase;
+do not put service-role/admin keys or passwords in this HTML.
+-->
+
+<button id="chatLauncher" aria-label="Open WEDIMORA chat" title="Chat" onclick="openChat()">💬</button>
+
+
+<!-- WELCOME -->
+
+<section id="welcome" class="screen active">
+
+    <div class="moon"></div>
+
+    <div class="logo-lockup"><div class="dreamora-mark"><span class="dreamora-symbol"></span><span class="dreamora-word">Wedimora<span class="star-cut">✦</span></span></div><div class="brand-tag">infinite loop</div></div>
+
+    <p class="tagline">Every dream has a story.</p>
+
+    <p class="description">
+        A place where you can write, explore and remember
+        the dreams that visit your mind.
+    </p>
+
+    <button class="main-btn"
+    onclick="showScreen('register')">
+        Get Started 🌙
+    </button>
+
+    <button class="secondary-btn"
+    onclick="showScreen('login')">
+        Log In
+    </button>
+
+</section>
+
+
+<!-- REGISTER -->
+
+<section id="register" class="screen">
+
+    <div class="form-container">
+
+        <h1>Create Account 🌙</h1>
+
+        <input id="regName"
+        type="text"
+        placeholder="Name">
+
+        <input id="regUsername"
+        type="text"
+        placeholder="Username">
+
+        <input id="regEmail"
+        type="email"
+        placeholder="Email">
+
+        <input id="regDob"
+        type="date">
+
+        <select id="regGender">
+
+            <option value="">
+                Select Gender
+            </option>
+
+            <option>Female</option>
+            <option>Male</option>
+            <option>Other</option>
+            <option>Prefer not to say</option>
+
+        </select>
+
+        <input id="regPassword"
+        type="password"
+        placeholder="Password">
+
+        <button class="main-btn"
+        onclick="registerUser()">
+            Register
+        </button>
+
+        <button class="back-btn"
+        onclick="showScreen('welcome')">
+            ← Back
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- LOGIN -->
+
+<section id="login" class="screen">
+
+    <div class="form-container">
+
+        <h1>Welcome Back 🌙</h1>
+
+        <input id="loginUser"
+        type="text"
+        placeholder="Email or Username">
+
+        <input id="loginPassword"
+        type="password"
+        placeholder="Password">
+
+        <button class="main-btn"
+        onclick="loginUser()">
+            Log In
+        </button>
+
+        <button class="back-btn"
+        onclick="showScreen('welcome')">
+            ← Back
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- HOME -->
+
+<section id="home" class="screen">
+
+    <div class="topbar">
+
+        <div class="logo-lockup"><div class="dreamora-mark"><span class="dreamora-symbol"></span><span class="dreamora-word">Wedimora<span class="star-cut">✦</span></span></div></div>
+
+        <button class="create-top-btn"
+        onclick="showScreen('create')">
+            + Dream
+        </button>
+
+    </div>
+
+
+    <div class="home-content">
+
+        <div class="welcome-text">
+
+            <h2>
+                Welcome to your dream world 🌙
+            </h2>
+
+            <p style="color:#9f91b5;margin-top:7px;">
+                Explore dreams shared by people.
+            </p>
+
+        </div>
+
+        <div id="dreamFeed"></div>
+
+    </div>
+
+
+    <div class="bottom-nav">
+
+        <button class="nav-btn active-nav"
+        onclick="showScreen('home')">
+            🏠<br>Home
+        </button>
+
+        <button class="nav-btn"
+        onclick="showScreen('explore')">
+            🔍<br>Explore
+        </button>
+
+        <button class="nav-btn"
+        onclick="showScreen('create')">
+            ➕<br>Create
+        </button>
+
+        <button class="nav-btn"
+        onclick="showScreen('notifications')">
+            🔔<br>Alerts
+        </button>
+
+        <button class="nav-btn"
+        onclick="showScreen('profile')">
+            👤<br>Profile
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- EXPLORE / SEARCH -->
+<section id="explore" class="screen">
+    <div class="page-topbar">
+        <button class="page-back" onclick="showScreen('home')">←</button>
+        <h2>Explore Dreams 🔍</h2>
+    </div>
+    <div class="explore-container">
+        <div class="search-box">
+            <input id="searchInput" type="text" placeholder="Search dreams, usernames or categories..." oninput="searchDreams()">
+            <button class="search-btn" onclick="searchDreams()">Search</button>
+        </div>
+        <div class="search-hint">Try: nightmare, lucid, @username, or a dream title.</div>
+        <div id="searchResults"></div>
+    </div>
+    <div class="bottom-nav">
+        <button class="nav-btn" onclick="showScreen('home')">🏠<br>Home</button>
+        <button class="nav-btn active-nav" onclick="showScreen('explore')">🔍<br>Explore</button>
+        <button class="nav-btn" onclick="showScreen('create')">➕<br>Create</button>
+        <button class="nav-btn" onclick="showScreen('notifications')">🔔<br>Alerts</button>
+        <button class="nav-btn" onclick="showScreen('profile')">👤<br>Profile</button>
+    </div>
+</section>
+
+<!-- NOTIFICATIONS -->
+<section id="notifications" class="screen">
+    <div class="page-topbar">
+        <button class="page-back" onclick="showScreen('home')">←</button>
+        <h2>Notifications 🔔</h2>
+    </div>
+    <div class="notification-container">
+        <div id="notificationList"></div>
+    </div>
+    <div class="bottom-nav">
+        <button class="nav-btn" onclick="showScreen('home')">🏠<br>Home</button>
+        <button class="nav-btn" onclick="showScreen('explore')">🔍<br>Explore</button>
+        <button class="nav-btn" onclick="showScreen('create')">➕<br>Create</button>
+        <button class="nav-btn active-nav" onclick="showScreen('notifications')">🔔<br>Alerts</button>
+        <button class="nav-btn" onclick="showScreen('profile')">👤<br>Profile</button>
+    </div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="screen">
+    <div class="page-topbar">
+        <button class="page-back" onclick="showScreen('profile')">←</button>
+        <h2>Settings ⚙️</h2>
+    </div>
+    <div class="settings-container">
+        <div class="setting-card">
+            <div class="setting-row">
+                <div class="setting-info"><strong>Dark Mode 🌙</strong><span>Switch between dark and light appearance.</span></div>
+                <button id="themeToggle" class="toggle on" onclick="toggleTheme()"></button>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info"><strong>Clear Notifications</strong><span>Remove all notifications from this device.</span></div>
+                <button class="search-btn" style="padding:9px 12px" onclick="clearNotifications()">Clear</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROFILE -->
+
+<section id="profile" class="screen">
+
+    <div class="profile-topbar">
+        <button class="profile-back-btn" onclick="showScreen('home')">
+            ←
+        </button>
+        <h2>Profile</h2>
+    </div>
+
+    <div class="profile-container">
+
+        <div class="profile-header">
+
+            <div id="profileAvatar" class="profile-avatar">D</div>
+
+            <div id="profileName" class="profile-name">Dreamer</div>
+
+            <div id="profileUsername" class="profile-username">@dreamer</div>
+
+            <div id="profileBio" class="profile-bio">
+                Dreams are stories waiting to be remembered. 🌙
+            </div>
+
+            <button class="profile-edit-btn" onclick="toggleEditProfile()">
+                Edit Profile
+            </button>
+
+            <button class="profile-edit-btn" onclick="showScreen('settings')" style="margin-left:6px;">
+                ⚙️ Settings
+            </button>
+
+        </div>
+
+        <div class="profile-stats">
+
+            <div class="profile-stat">
+                <strong id="dreamCount">0</strong>
+                <span>Dreams</span>
+            </div>
+
+            <div class="profile-stat">
+                <strong id="followerCount">0</strong>
+                <span>Followers</span>
+            </div>
+
+            <div class="profile-stat">
+                <strong id="followingCount">0</strong>
+                <span>Following</span>
+            </div>
+
+        </div>
+
+        <div id="editProfileBox" class="edit-profile-box" style="display:none;">
+
+            <div class="edit-profile-header">
+                <h3>Edit Profile ✨</h3>
+                <button class="edit-close-btn" onclick="toggleEditProfile()">
+                    ✕
+                </button>
+            </div>
+
+            <input id="editName" type="text" placeholder="Name">
+
+            <input id="editUsername" type="text" placeholder="Username">
+
+            <textarea id="editBio" maxlength="160"
+            placeholder="Write a short bio..."></textarea>
+
+            <button class="profile-save-btn" onclick="saveProfile()">
+                Save Profile
+            </button>
+
+        </div>
+
+        <div class="my-dreams-header">
+            <h3 class="profile-section-title">My Dreams 🌙</h3>
+            <span class="my-dreams-count" id="myDreamsLabel">0 dreams</span>
+        </div>
+
+        <div id="profileDreams"></div>
+
+        <div class="bottom-nav">
+
+            <button class="nav-btn"
+            onclick="showScreen('home')">
+                🏠<br>Home
+            </button>
+
+            <button class="nav-btn"
+            onclick="showScreen('explore')">
+                🔍<br>Explore
+            </button>
+
+            <button class="nav-btn"
+            onclick="showScreen('create')">
+                ➕<br>Create
+            </button>
+
+            <button class="nav-btn"
+            onclick="showScreen('notifications')">
+                🔔<br>Alerts
+            </button>
+
+            <button class="nav-btn active-nav"
+            onclick="showScreen('profile')">
+                👤<br>Profile
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CREATE DREAM -->
+
+<section id="create" class="screen">
+
+    <div class="create-container">
+
+        <h1>Create Your Dream 🌙</h1>
+
+        <input
+        id="dreamTitle"
+        type="text"
+        placeholder="Dream title">
+
+        <textarea
+        id="dreamStory"
+        maxlength="3000"
+        placeholder="Write your dream here..."></textarea>
+
+        <div class="char-count">
+            <span id="charCount">0</span>/3000
+        </div>
+
+        <select id="dreamCategory">
+
+            <option value="">
+                Choose Dream Category
+            </option>
+
+            <option>Lucid Dream</option>
+            <option>Nightmare</option>
+            <option>Recurring Dream</option>
+            <option>Weird / Unusual</option>
+            <option>Fantasy</option>
+            <option>Funny</option>
+            <option>Emotional</option>
+            <option>Romantic</option>
+            <option>Realistic</option>
+            <option>Horror</option>
+            <option>Other</option>
+
+        </select>
+
+        <button class="main-btn"
+        onclick="postDream()">
+            Post Dream 🌙
+        </button>
+
+        <button class="back-btn"
+        onclick="showScreen('home')">
+            ← Back
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- CATEGORY FILTER + CHAT -->
+<div id="categoryControls" style="display:none"></div>
+<div id="chatOverlay" class="chat-overlay" onclick="closeChatFromBackdrop(event)">
+  <div class="chat-panel">
+    <div class="chat-head">
+      <span class="chat-brand-dot">✦</span>
+      <div><h2>Wedimora</h2><span class="chat-subtitle">dream conversations</span></div>
+      <button class="chat-close" onclick="closeChat()">×</button>
+    </div>
+    <div class="chat-tools">
+      <button class="chat-tool" onclick="createGroupChat()">＋ Group</button>
+      <button class="chat-tool" onclick="showSleepWishes()">☾ Sleep wishes</button>
+    </div>
+    <div class="chat-search-wrap"><input id="newChatInput" placeholder="Search people or start a chat..." onkeydown="if(event.key==='Enter')startChatFromInput()"></div>
+    <div class="chat-tabs"><button class="chat-tab active">Chats</button><button class="chat-tab">Groups</button><button class="chat-tab">Calls</button><button class="chat-tab">Status</button></div>
+    <div id="chatList" class="chat-list"></div>
+    <div id="chatRoom" class="chat-room">
+      <div class="room-head">
+        <button class="room-back" onclick="closeChatRoom()">←</button>
+        <div class="room-avatar">✦</div>
+        <div><strong id="roomTitle" class="room-name">Chat</strong><div class="room-status">WEDIMORA chat</div></div>
+        <div class="room-actions"><button onclick="mockCall('voice')" title="Voice call">⌕</button><button onclick="mockCall('video')" title="Video call">▣</button></div>
+      </div>
+      <div id="messageList" class="messages"></div>
+      <div id="chatExtraPanel" class="chat-extra-panel">
+        <button class="extra-item" onclick="chooseChatFile();toggleChatExtras()"><span>▣</span>Photo</button>
+        <button class="extra-item" onclick="chooseChatFile();toggleChatExtras()"><span>⌁</span>File</button>
+        <button class="extra-item" onclick="sendGoodNightEffect();toggleChatExtras()"><span>☾</span>Dream effect</button>
+        <button class="extra-item" onclick="alert('Link sharing will connect to the real backend later.') ;toggleChatExtras()"><span>↗</span>Link</button>
+      </div>
+      <div id="stickerPanel" class="sticker-panel"></div>
+      <div class="room-compose">
+        <button class="attach-btn" onclick="toggleChatExtras()" title="Attachments">＋</button>
+        <button id="stickerToggle" class="effect-btn" onclick="toggleStickerPanel()" title="Stickers">☺</button>
+        <button id="voiceRecordBtn" class="effect-btn voice-btn" onclick="toggleVoiceRecording()" title="Voice recording">🎙</button>
+        <input id="messageInput" placeholder="Write a dream message..." onkeydown="if(event.key==='Enter')sendChatMessage()">
+        <button class="effect-btn" onclick="sendGoodNightEffect()" title="Good Night effect">☾</button>
+        <button class="chat-send" onclick="sendChatMessage()" aria-label="Send message">Send</button>
+      </div>
+      <input id="chatFileInput" type="file" style="display:none" onchange="handleChatFile(this)">
+      <div id="roomEffect" class="night-effect"></div>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT MODAL -->
+<div id="reportModal" class="modal-backdrop">
+ <div class="modal">
+   <h3>Report content</h3>
+   <p>If something feels unsafe, tell us what happened. You can attach evidence and the report can be reviewed before action is taken.</p>
+   <select id="reportReason"><option value="">Choose a reason</option><option>Harassment / bullying</option><option>Abusive language</option><option>Threats</option><option>Blackmail / intimate-image abuse</option><option>Sexual or inappropriate content</option><option>Hate or discrimination</option><option>Spam / scam</option><option>Privacy violation</option><option>Other</option></select>
+   <input id="reportEvidence" type="file" accept="image/*,video/*">
+   <textarea id="reportDetails" maxlength="1000" placeholder="Tell us what happened (optional)"></textarea>
+   <div class="modal-actions"><button onclick="closeReportModal()">Cancel</button><button class="danger" onclick="submitReport()">Submit Report</button></div>
+ </div>
+</div>
+
+<script>
+
+/* SCREEN NAVIGATION */
+
+function showScreen(screenId){
+
+    const screens =
+    document.querySelectorAll(".screen");
+
+    screens.forEach(screen=>{
+        screen.classList.remove("active");
+    });
+
+    document.getElementById(screenId)
+    .classList.add("active");
+
+    if(screenId === "home"){
+        displayDreams();
+    }
+
+    if(screenId === "profile"){
+        displayProfile();
+    }
+
+    if(screenId === "explore"){
+        searchDreams();
+        setTimeout(()=>document.getElementById("searchInput")?.focus(),50);
+    }
+
+    if(screenId === "notifications"){
+        displayNotifications();
+    }
+
+    if(screenId === "settings"){
+        updateThemeButton();
+    }
+
+}
+
+
+/* REGISTER */
+
+function registerUser(){
+
+    const name =
+    document.getElementById("regName")
+    .value.trim();
+
+    const username =
+    document.getElementById("regUsername")
+    .value.trim();
+
+    const email =
+    document.getElementById("regEmail")
+    .value.trim();
+
+    const dob =
+    document.getElementById("regDob").value;
+
+    const gender =
+    document.getElementById("regGender").value;
+
+    const password =
+    document.getElementById("regPassword").value;
+
+
+    if(
+        !name ||
+        !username ||
+        !email ||
+        !dob ||
+        !gender ||
+        !password
+    ){
+
+        alert("Please fill all fields.");
+
+        return;
+    }
+
+
+    localStorage.setItem(
+        "dreamoraUser",
+        JSON.stringify({
+            name:name,
+            username:username,
+            email:email,
+            dob:dob,
+            gender:gender,
+            password:password,
+            bio:"Dreams are stories waiting to be remembered. 🌙",
+            followers:0,
+            following:0,
+            followingUsers:[]
+        })
+    );
+
+
+    alert("Account created successfully! 🌙");
+
+    showScreen("login");
+
+}
+
+
+/* LOGIN */
+
+function loginUser(){
+
+    const enteredUser =
+    document.getElementById("loginUser")
+    .value.trim();
+
+    const enteredPassword =
+    document.getElementById("loginPassword")
+    .value;
+
+
+    const savedUser =
+    JSON.parse(
+        localStorage.getItem("dreamoraUser")
+    );
+
+
+    if(!savedUser){
+
+        alert(
+            "No account found. Please register first."
+        );
+
+        return;
+    }
+
+
+    const userMatch =
+        enteredUser === savedUser.username ||
+        enteredUser === savedUser.email;
+
+
+    if(
+        userMatch &&
+        enteredPassword === savedUser.password
+    ){
+
+        alert("Login successful! 🌙");
+
+        showScreen("home");
+
+    }else{
+
+        alert(
+            "Wrong username/email or password."
+        );
+
+    }
+
+}
+
+
+/* CHARACTER COUNT */
+
+document.getElementById("dreamStory")
+.addEventListener("input",function(){
+
+    document.getElementById("charCount")
+    .textContent = this.value.length;
+
+});
+
+
+/* POST DREAM */
+
+function postDream(){
+
+    const title =
+    document.getElementById("dreamTitle")
+    .value.trim();
+
+    const story =
+    document.getElementById("dreamStory")
+    .value.trim();
+
+    const category =
+    document.getElementById("dreamCategory")
+    .value;
+
+
+    if(!title || !story || !category){
+
+        alert(
+            "Please fill title, dream story and category."
+        );
+
+        return;
+    }
+
+
+    const savedUser =
+    JSON.parse(
+        localStorage.getItem("dreamoraUser")
+    );
+
+
+    const dream = {
+
+        id:Date.now(),
+
+        title:title,
+
+        story:story,
+
+        category:category,
+
+        username:
+        savedUser
+        ? savedUser.username
+        : "Dreamer",
+
+        name:
+        savedUser
+        ? savedUser.name
+        : "Dreamer",
+
+        date:
+        new Date().toLocaleString(),
+
+        likes:0,
+
+        liked:false,
+
+        comments:[]
+
+    };
+
+
+    let dreams =
+    JSON.parse(
+        localStorage.getItem("dreamoraDreams")
+    ) || [];
+
+
+    dreams.unshift(dream);
+
+
+    localStorage.setItem(
+        "dreamoraDreams",
+        JSON.stringify(dreams)
+    );
+
+
+    document.getElementById("dreamTitle")
+    .value="";
+
+    document.getElementById("dreamStory")
+    .value="";
+
+    document.getElementById("dreamCategory")
+    .value="";
+
+    document.getElementById("charCount")
+    .textContent="0";
+
+
+    alert(
+        "Your dream has been posted! 🌙✨"
+    );
+
+    showScreen("home");
+
+}
+
+
+/* DISPLAY DREAMS */
+/* TOGGLE COMMENTS */
+
+function toggleComments(id){
+
+    const section =
+    document.getElementById(
+        "comments-" + id
+    );
+
+
+    if(!section) return;
+
+
+    if(section.style.display === "none"){
+
+        section.style.display="block";
+
+        const input =
+        document.getElementById(
+            "comment-input-" + id
+        );
+
+        if(input){
+            input.focus();
+        }
+
+    }else{
+
+        section.style.display="none";
+
+    }
+
+}
+
+
+/* ADD COMMENT */
+
+function addComment(id){
+
+    const input =
+    document.getElementById(
+        "comment-input-" + id
+    );
+
+
+    if(!input) return;
+
+
+    const text =
+    input.value.trim();
+
+
+    if(!text){
+
+        alert("Please write a comment first. 💬");
+
+        return;
+    }
+
+
+    const savedUser =
+    JSON.parse(
+        localStorage.getItem("dreamoraUser")
+    );
+
+
+    const comment = {
+
+        name:
+        savedUser
+        ? savedUser.name
+        : "Dreamer",
+
+        username:
+        savedUser
+        ? savedUser.username
+        : "dreamer",
+
+        text:text,
+
+        date:
+        new Date().toLocaleString()
+
+    };
+
+
+    let dreams =
+    JSON.parse(
+        localStorage.getItem("dreamoraDreams")
+    ) || [];
+
+
+    const dream =
+    dreams.find(
+        dream => dream.id === id
+    );
+
+
+    if(!dream) return;
+
+
+    if(!dream.comments){
+        dream.comments=[];
+    }
+
+
+    dream.comments.push(comment);
+
+
+    localStorage.setItem(
+        "dreamoraDreams",
+        JSON.stringify(dreams)
+    );
+
+
+    displayDreams();
+
+
+    /*
+    Open the same comment section again
+    after refreshing the feed.
+    */
+
+    setTimeout(()=>{
+
+        const section =
+        document.getElementById(
+            "comments-" + id
+        );
+
+        if(section){
+            section.style.display="block";
+        }
+
+    },50);
+
+}
+
+
+/* SEARCH */
+function searchDreams(){
+    const input = document.getElementById("searchInput");
+    const results = document.getElementById("searchResults");
+    if(!input || !results) return;
+
+    const query = input.value.trim().toLowerCase();
+    const dreams = JSON.parse(localStorage.getItem("dreamoraDreams")) || [];
+
+    const filtered = query ? dreams.filter(dream =>
+        (dream.title || "").toLowerCase().includes(query) ||
+        (dream.story || "").toLowerCase().includes(query) ||
+        (dream.username || "").toLowerCase().includes(query.replace(/^@/, "")) ||
+        (dream.category || "").toLowerCase().includes(query)
+    ) : dreams;
+
+    if(filtered.length === 0){
+        results.innerHTML = `<div class="empty-state">🔍<br><br>No matching dreams found.</div>`;
+        return;
+    }
+
+    results.innerHTML = filtered.map(dream => `
+        <div class="search-result">
+            <div class="search-result-title">${escapeHTML(dream.title)}</div>
+            <div class="search-result-meta">@${escapeHTML(dream.username || "dreamer")} · ${escapeHTML(dream.category || "Other")}</div>
+            <div class="search-result-text">${escapeHTML((dream.story || "").slice(0,220))}${(dream.story || "").length > 220 ? "..." : ""}</div>
+        </div>
+    `).join("");
+}
+
+/* NOTIFICATIONS */
+function addNotification(icon, text){
+    const notifications = JSON.parse(localStorage.getItem("dreamoraNotifications")) || [];
+    notifications.unshift({icon:icon, text:text, time:new Date().toLocaleString()});
+    localStorage.setItem("dreamoraNotifications", JSON.stringify(notifications.slice(0,50)));
+}
+
+function displayNotifications(){
+    const list = document.getElementById("notificationList");
+    if(!list) return;
+    const notifications = JSON.parse(localStorage.getItem("dreamoraNotifications")) || [];
+
+    if(notifications.length === 0){
+        list.innerHTML = `<div class="empty-state">🔔<br><br>No notifications yet.</div>`;
+        return;
+    }
+
+    list.innerHTML = notifications.map(n => `
+        <div class="notification">
+            <div class="notification-icon">${escapeHTML(n.icon || "🔔")}</div>
+            <div class="notification-text">
+                ${escapeHTML(n.text)}
+                <div class="notification-time">${escapeHTML(n.time || "")}</div>
+            </div>
+        </div>
+    `).join("");
+}
+
+function clearNotifications(){
+    localStorage.removeItem("dreamoraNotifications");
+    displayNotifications();
+}
+
+/* LIGHT / DARK MODE */
+function applyTheme(){
+    const light = localStorage.getItem("dreamoraLightMode") === "true";
+    document.body.classList.toggle("light-mode", light);
+    updateThemeButton();
+}
+
+function updateThemeButton(){
+    const button = document.getElementById("themeToggle");
+    if(!button) return;
+    const light = localStorage.getItem("dreamoraLightMode") === "true";
+    button.classList.toggle("on", !light);
+}
+
+function toggleTheme(){
+    const light = localStorage.getItem("dreamoraLightMode") === "true";
+    localStorage.setItem("dreamoraLightMode", String(!light));
+    applyTheme();
+}
+
+applyTheme();
+
+/* PROFILE */
+
+function displayProfile(){
+
+    const savedUser =
+    JSON.parse(
+        localStorage.getItem("dreamoraUser")
+    );
+
+    if(!savedUser){
+        showScreen("login");
+        return;
+    }
+
+    const name =
+        savedUser.name || "Dreamer";
+
+    const username =
+        savedUser.username || "dreamer";
+
+    const bio =
+        savedUser.bio ||
+        "Dreams are stories waiting to be remembered. 🌙";
+
+    document.getElementById("profileName")
+    .textContent = name;
+
+    document.getElementById("profileUsername")
+    .textContent =
+        "@" + username;
+
+    document.getElementById("profileBio")
+    .textContent = bio;
+
+    document.getElementById("profileAvatar")
+    .textContent =
+        name.charAt(0).toUpperCase();
+
+    document.getElementById("editName")
+    .value = name;
+
+    document.getElementById("editUsername")
+    .value = username;
+
+    document.getElementById("editBio")
+    .value = bio;
+
+    const dreams =
+        JSON.parse(
+            localStorage.getItem("dreamoraDreams")
+        ) || [];
+
+    const myDreams =
+        dreams.filter(
+            dream => dream.username === username
+        );
+
+    document.getElementById("dreamCount")
+    .textContent = myDreams.length;
+
+    document.getElementById("myDreamsLabel")
+    .textContent =
+        myDreams.length + (myDreams.length === 1 ? " dream" : " dreams");
+
+    document.getElementById("followerCount")
+    .textContent = savedUser.followers || 0;
+
+    document.getElementById("followingCount")
+    .textContent = savedUser.following || 0;
+
+    const container =
+        document.getElementById("profileDreams");
+
+    if(myDreams.length === 0){
+
+        container.innerHTML = `
+            <div class="profile-empty">
+                You haven't posted any dreams yet. 🌙
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        myDreams.map(dream => `
+
+            <div class="profile-dream">
+
+                <div class="profile-dream-top">
+                    <div class="profile-dream-title">
+                        ${escapeHTML(dream.title)}
+                    </div>
+                    <div class="profile-dream-date">
+                        ${escapeHTML(dream.date || "")}
+                    </div>
+                </div>
+
+                <div class="profile-dream-story">
+                    ${escapeHTML(dream.story)}
+                </div>
+
+                <div class="profile-dream-footer">
+                    <span class="profile-dream-category">
+                        #${escapeHTML(dream.category)}
+                    </span>
+                    <span class="profile-dream-stats">
+                        ❤️ ${dream.likes || 0} &nbsp; 💬 ${(dream.comments || []).length}
+                    </span>
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function toggleEditProfile(){
+
+    const box =
+        document.getElementById("editProfileBox");
+
+    if(box.style.display === "none"){
+        box.style.display = "block";
+    }else{
+        box.style.display = "none";
+    }
+
+}
+
+
+function saveProfile(){
+
+    const name =
+        document.getElementById("editName")
+        .value.trim();
+
+    const username =
+        document.getElementById("editUsername")
+        .value.trim();
+
+    const bio =
+        document.getElementById("editBio")
+        .value.trim();
+
+    if(!name || !username){
+
+        alert("Name and username are required.");
+
+        return;
+    }
+
+    const savedUser =
+        JSON.parse(
+            localStorage.getItem("dreamoraUser")
+        );
+
+    if(!savedUser) return;
+
+    const oldUsername =
+        savedUser.username;
+
+    savedUser.name = name;
+    savedUser.username = username;
+    savedUser.bio = bio;
+
+    localStorage.setItem(
+        "dreamoraUser",
+        JSON.stringify(savedUser)
+    );
+
+    /* Update this user's existing dreams
+       so the profile remains connected. */
+
+    let dreams =
+        JSON.parse(
+            localStorage.getItem("dreamoraDreams")
+        ) || [];
+
+    dreams.forEach(dream => {
+
+        if(dream.username === oldUsername){
+
+            dream.username = username;
+            dream.name = name;
+
+        }
+
+    });
+
+    localStorage.setItem(
+        "dreamoraDreams",
+        JSON.stringify(dreams)
+    );
+
+    alert("Profile updated! ✨");
+
+    document.getElementById("editProfileBox")
+    .style.display = "none";
+
+    displayProfile();
+
+    displayDreams();
+
+}
+
+
+function toggleFollow(username, event){
+    if(event) event.stopPropagation();
+    const user = JSON.parse(localStorage.getItem("dreamoraUser"));
+    if(!user || user.username === username) return;
+    user.followingUsers = user.followingUsers || [];
+    const index = user.followingUsers.indexOf(username);
+    const isFollowing = index !== -1;
+    if(isFollowing){
+        user.followingUsers.splice(index,1);
+        user.following = Math.max(0,(user.following || 0)-1);
+    }else{
+        user.followingUsers.push(username);
+        user.following = (user.following || 0)+1;
+        addNotification("👤", "You followed @" + username);
+    }
+    localStorage.setItem("dreamoraUser", JSON.stringify(user));
+    displayDreams();
+    if(document.getElementById("profile")?.classList.contains("active")) displayProfile();
+}
+
+/* LIKE */
+
+function toggleLike(id){
+
+    let dreams =
+    JSON.parse(
+        localStorage.getItem("dreamoraDreams")
+    ) || [];
+
+
+    const dream =
+    dreams.find(
+        d => d.id === id
+    );
+
+
+    if(!dream) return;
+
+
+    if(dream.liked){
+
+        dream.likes--;
+
+        dream.liked=false;
+
+    }else{
+
+        dream.likes++;
+
+        dream.liked=true;
+
+    }
+
+
+    localStorage.setItem(
+        "dreamoraDreams",
+        JSON.stringify(dreams)
+    );
+
+
+    displayDreams();
+
+}
+
+
+/* SAVE */
+
+function saveDream(id){
+
+    let saved =
+    JSON.parse(
+        localStorage.getItem("dreamoraSaved")
+    ) || [];
+
+
+    if(!saved.includes(id)){
+
+        saved.push(id);
+
+
+        localStorage.setItem(
+            "dreamoraSaved",
+            JSON.stringify(saved)
+        );
+
+
+        alert("Dream saved! 🔖");
+
+    }else{
+
+        alert(
+            "This dream is already saved. 🔖"
+        );
+
+    }
+
+}
+
+
+/* SECURITY HELPER FOR PROTOTYPE */
+
+function escapeHTML(text){
+
+    const div =
+    document.createElement("div");
+
+    div.textContent =
+    text ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+/* SHOW DREAMS ON START */
+
+displayDreams();
+
+
+/* ===== NEXT FEATURE LOGIC ===== */
+let activeCategory = 'All';
+
+function toggleChatExtras(){
+  const panel=document.getElementById('chatExtraPanel');
+  if(panel) panel.classList.toggle('open');
+}
+function closeChat(){
+  document.getElementById('chatOverlay')?.classList.remove('open');
+  closeChatRoom();
+  document.getElementById('chatExtraPanel')?.classList.remove('open');
+}
+
+let activeChat = null;
+
+const WEDIMORA_CATEGORIES = ['All','Lucid Dream','Nightmare','Recurring Dream','Weird / Unusual','Fantasy','Funny','Emotional','Romantic','Realistic','Horror','Other'];
+
+function getDreams(){return JSON.parse(localStorage.getItem('dreamoraDreams')||'[]');}
+function saveDreams(list){localStorage.setItem('dreamoraDreams',JSON.stringify(list));}
+
+function renderCategoryFilter(){
+  const home=document.getElementById('home');
+  if(!home || document.getElementById('dreamCategoryBar')) return;
+  const content=home.querySelector('.home-content');
+  if(!content) return;
+  const bar=document.createElement('div');
+  bar.id='dreamCategoryBar'; bar.className='category-bar';
+  bar.innerHTML=WEDIMORA_CATEGORIES.map(c=>`<button class="cat-chip ${c===activeCategory?'active':''}" onclick="setCategoryFilter(${JSON.stringify(c)})">${escapeHTML(c)}</button>`).join('');
+  const label=document.createElement('div'); label.className='feed-label'; label.innerHTML='<strong>Dream feed</strong><span id="activeCategoryLabel">All dreams</span>';
+  content.insertBefore(bar,content.querySelector('#dreamFeed'));
+  content.insertBefore(label,content.querySelector('#dreamFeed'));
+}
+function setCategoryFilter(category){activeCategory=category; renderCategoryFilter(); const bar=document.getElementById('dreamCategoryBar'); if(bar) bar.innerHTML=WEDIMORA_CATEGORIES.map(c=>`<button class="cat-chip ${c===activeCategory?'active':''}" onclick="setCategoryFilter(${JSON.stringify(c)})">${escapeHTML(c)}</button>`).join(''); const label=document.getElementById('activeCategoryLabel'); if(label) label.textContent=category==='All'?'All dreams':category; displayDreams();}
+
+const _displayDreamsOriginal = typeof displayDreams==='function' ? displayDreams : null;
+function displayDreams(){
+  renderCategoryFilter();
+  const feed=document.getElementById('dreamFeed'); if(!feed) return;
+  let dreams=getDreams();
+  if(activeCategory!=='All') dreams=dreams.filter(d=>d.category===activeCategory);
+  if(dreams.length===0){feed.innerHTML=`<div class="empty-message"><div style="font-size:45px">🌙</div><p style="margin-top:15px">No dreams in this category yet.</p><p style="margin-top:8px;color:#888">Try another category or share the first one.</p></div>`;return;}
+  feed.innerHTML=dreams.map(dream=>renderDreamCardNext(dream)).join('');
+}
+function renderDreamCardNext(dream){
+  const first=(dream.name||'D').charAt(0).toUpperCase(); const comments=dream.comments||[];
+  const commentsHTML=comments.length?comments.map(c=>`<div class="comment"><div class="comment-avatar">${escapeHTML((c.name||'D').charAt(0).toUpperCase())}</div><div class="comment-body"><div class="comment-name">${escapeHTML(c.name||'Dreamer')}</div><div class="comment-text">${escapeHTML(c.text||'')}</div></div></div>`).join(''):'<div class="no-comments">No comments yet. Be the first! 🌙</div>';
+  return `<div class="dream-card">
+    <div class="dream-user"><div class="avatar">${escapeHTML(first)}</div><div><div class="username">${escapeHTML(dream.name||'Dreamer')}</div><div class="dream-date">@${escapeHTML(dream.username||'dreamer')} · ${escapeHTML(dream.date||'')}</div></div></div>
+    <div class="dream-title">${escapeHTML(dream.title||'Untitled Dream')}</div><div class="dream-story">${escapeHTML(dream.story||'')}</div><div class="category">#${escapeHTML(dream.category||'Other')}</div>
+    <div class="actions"><button class="action-btn ${dream.liked?'liked':''}" onclick="toggleLike(${dream.id})">${dream.liked?'♥':'♡'} ${dream.likes||0}</button><button class="action-btn" onclick="toggleComments(${dream.id})">💬 ${comments.length}</button><button class="action-btn" onclick="saveDream(${dream.id})">🔖 Save</button><button class="action-btn" onclick="openReportModal(${dream.id})">⚑ Report</button></div>
+    <div id="comments-${dream.id}" class="comments-section" style="display:none"><div class="comments-header"><div class="comments-title">Comments 💬</div><button class="close-section-btn" onclick="toggleComments(${dream.id})">✕</button></div>${commentsHTML}<div class="comment-input-area"><input id="comment-input-${dream.id}" class="comment-input" type="text" placeholder="Write a comment..."><button class="comment-post-btn" onclick="addComment(${dream.id})">Post</button></div></div>
+  </div>`;
+}
+
+function openChat(){document.getElementById('chatOverlay')?.classList.add('open');renderChatList();}
+function closeChatFromBackdrop(e){if(e.target.id==='chatOverlay')closeChat();}
+function getChats(){return JSON.parse(localStorage.getItem('dreamoraChats')||'[]');}
+function saveChats(c){localStorage.setItem('dreamoraChats',JSON.stringify(c));}
+function renderChatList(){const list=document.getElementById('chatList'); if(!list)return; const chats=getChats(); if(!chats.length){list.innerHTML='<div class="empty-state">💬<br><br>No chats yet.<br><span style="font-size:12px">Start one below or create a group.</span></div>';return;} list.innerHTML=chats.map((c,i)=>`<div class="chat-row" onclick="openChatRoom(${i})"><div class="chat-avatar">${escapeHTML((c.name||'D').charAt(0).toUpperCase())}</div><div class="chat-meta"><div class="chat-name">${escapeHTML(c.name)}</div><div class="chat-preview">${escapeHTML(c.last||'No messages yet')}</div></div></div>`).join('');}
+function startChatFromInput(){const input=document.getElementById('newChatInput');const name=input.value.trim();if(!name)return;const chats=getChats();chats.unshift({name:name,last:'New conversation',messages:[]});saveChats(chats);input.value='';renderChatList();openChatRoom(0);}
+function createGroupChat(){const name=prompt('Choose a group name:');if(!name||!name.trim())return;const chats=getChats();chats.unshift({name:name.trim(),group:true,last:'Group created',messages:[]});saveChats(chats);renderChatList();}
+function openChatRoom(index){const chats=getChats();activeChat=index;const c=chats[index];if(!c)return;document.getElementById('roomTitle').textContent=c.name;document.getElementById('chatRoom').classList.add('open');renderMessages();}
+function closeChatRoom(){document.getElementById('chatRoom')?.classList.remove('open');activeChat=null;}
+function renderMessages(){const box=document.getElementById('messageList');if(!box||activeChat===null)return;const chats=getChats();const msgs=chats[activeChat]?.messages||[];box.innerHTML=msgs.length?msgs.map(m=>`<div class="bubble ${m.mine?'mine':''}">${escapeHTML(m.text||'')}<div class="message-time">${escapeHTML(m.time||'')}</div></div>`).join(''):'<div style="text-align:center;color:#666;padding:35px 10px">Start the conversation 🌙</div>';box.scrollTop=box.scrollHeight;}
+function sendChatMessage(){if(activeChat===null)return;const input=document.getElementById('messageInput');const text=input.value.trim();if(!text)return;const chats=getChats();chats[activeChat].messages=chats[activeChat].messages||[];chats[activeChat].messages.push({text,mine:true,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});chats[activeChat].last=text;saveChats(chats);input.value='';renderMessages();if(/\b(good\s*night|goodnight|gn|sweet\s*dreams)\b/i.test(text))triggerNightEffect('Good night 🌙');}
+function sendGoodNightEffect(){if(activeChat===null)return;triggerNightEffect('Sleep well ✨');const chats=getChats();chats[activeChat].messages=chats[activeChat].messages||[];chats[activeChat].messages.push({text:'🌙 Sleep well ✨',mine:true,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});chats[activeChat].last='🌙 Sleep well ✨';saveChats(chats);renderMessages();}
+function triggerNightEffect(text){const layer=document.getElementById('roomEffect');if(!layer)return;layer.innerHTML=`<div class="night-message">${escapeHTML(text)}</div>`+['✦','✧','⋆','✦','☾','✧','⋆','✦'].map((x,i)=>`<span class="night-star" style="left:${10+i*11}%;bottom:${15+(i%3)*12}%;animation-delay:${i*70}ms">${x}</span>`).join('');setTimeout(()=>layer.innerHTML='',2000);}
+function showSleepWishes(){const list=['🌙 Sleep peacefully tonight.','✨ May you have beautiful dreams.','☁️ Let the day go and rest.','⭐ Wishing you a calm night.'];const choice=list[Math.floor(Math.random()*list.length)];alert(choice);}
+function chooseChatFile(){document.getElementById('chatFileInput')?.click();}
+function handleChatFile(input){if(!input.files?.length||activeChat===null)return;const file=input.files[0];const chats=getChats();chats[activeChat].messages=chats[activeChat].messages||[];chats[activeChat].messages.push({text:`📎 ${file.name}`,mine:true,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});chats[activeChat].last=`📎 ${file.name}`;saveChats(chats);input.value='';renderMessages();}
+function mockCall(type){alert((type==='video'?'🎥 Video':'☎ Voice')+' call UI is ready for the prototype. Real online calling will need a backend/WebRTC service.');}
+
+let reportTargetId=null;
+function openReportModal(id){reportTargetId=id;document.getElementById('reportModal')?.classList.add('open');}
+function closeReportModal(){document.getElementById('reportModal')?.classList.remove('open');reportTargetId=null;}
+function submitReport(){const reason=document.getElementById('reportReason')?.value; if(!reason){alert('Please choose a reason.');return;}const reports=JSON.parse(localStorage.getItem('dreamoraReports')||'[]');reports.unshift({dreamId:reportTargetId,reason,details:document.getElementById('reportDetails')?.value.trim()||'',evidence:document.getElementById('reportEvidence')?.files?.[0]?.name||'',time:new Date().toLocaleString(),status:'Received'});localStorage.setItem('dreamoraReports',JSON.stringify(reports.slice(0,100)));alert('Report received. 🌙 It has been recorded for review.');document.getElementById('reportReason').value='';document.getElementById('reportDetails').value='';document.getElementById('reportEvidence').value='';closeReportModal();}
+
+function addSettingsRows(){const box=document.querySelector('#settings .settings-container');if(!box||document.getElementById('extendedSettings'))return;const wrap=document.createElement('div');wrap.id='extendedSettings';wrap.innerHTML=`
+ <div class="setting-group-title">Privacy & Safety</div><div class="setting-card"><div class="setting-row"><div class="setting-info"><strong>Private Account 🔒</strong><span>Only approved followers can see your dreams.</span></div><button class="toggle" onclick="toggleLocalSetting(this,'privateAccount')"></button></div><div class="setting-row"><div class="setting-info"><strong>Message Requests 💬</strong><span>Control who can start a chat.</span></div><select style="width:130px;margin:0" onchange="localStorage.setItem('messagePermission',this.value)"><option>Everyone</option><option>Followers</option><option>Nobody</option></select></div><div class="setting-row"><div class="setting-info"><strong>Mentions & Tags</strong><span>Choose who can mention or tag you.</span></div><select style="width:130px;margin:0" onchange="localStorage.setItem('mentionPermission',this.value)"><option>Everyone</option><option>Followers</option><option>Nobody</option></select></div></div>
+ <div class="setting-group-title">Notifications</div><div class="setting-card"><div class="setting-row"><div class="setting-info"><strong>Likes & Comments</strong><span>Notify me about activity on my dreams.</span></div><button class="toggle on" onclick="toggleLocalSetting(this,'likeNotifications')"></button></div><div class="setting-row"><div class="setting-info"><strong>Messages</strong><span>Show chat notifications.</span></div><button class="toggle on" onclick="toggleLocalSetting(this,'chatNotifications')"></button></div></div>
+ <div class="setting-group-title">Dream Feed</div><div class="setting-card"><div class="setting-row"><div class="setting-info"><strong>Preferred Dream Category</strong><span>Your feed can open on a category you choose.</span></div><select style="width:150px;margin:0" onchange="localStorage.setItem('preferredCategory',this.value);setCategoryFilter(this.value)"><option>All</option><option>Lucid Dream</option><option>Nightmare</option><option>Recurring Dream</option><option>Weird / Unusual</option><option>Fantasy</option><option>Funny</option><option>Emotional</option><option>Romantic</option><option>Realistic</option><option>Horror</option><option>Other</option></select></div></div>
+ <div class="setting-group-title">Security</div><div class="setting-note">🔐 WEDIMORA will keep real authentication, encrypted transport, secure storage and server-side permissions for the production version. This offline prototype stores demo data only on this browser.</div>`;box.appendChild(wrap);}
+function toggleLocalSetting(btn,key){const on=!btn.classList.contains('on');btn.classList.toggle('on',on);localStorage.setItem('dreamoraSetting_'+key,String(on));}
+
+function openChatButtonInTopbar(){const top=document.querySelector('#home .topbar');if(!top||document.getElementById('chatTopButton'))return;const b=document.createElement('button');b.id='chatTopButton';b.className='create-top-btn';b.style.marginLeft='auto';b.style.marginRight='8px';b.textContent='💬';b.title='Chat';b.onclick=openChat;top.insertBefore(b,top.querySelector('.create-top-btn'));}
+
+const _showScreenBase=showScreen;
+showScreen=function(screenId){_showScreenBase(screenId);if(screenId==='home'){renderCategoryFilter();openChatButtonInTopbar();}if(screenId==='settings'){addSettingsRows();}};
+setTimeout(()=>{renderCategoryFilter();openChatButtonInTopbar();},0);
+
+
+/* ================================================================
+   WEDIMORA MASTER DATA + SEARCH/PROFILE PATCH
+   This block intentionally lives at the end so it can safely override
+   older prototype functions without deleting the earlier work.
+   ================================================================ */
+(function WEDIMORA_MASTER_PATCH(){
+  'use strict';
+
+  const KEY = {
+    user: 'dreamoraUser',
+    current: 'dreamoraCurrentUser',
+    dreams: 'dreamoraDreams',
+    settings: 'dreamoraSettings'
+  };
+
+  const categories = [
+    'All','Lucid Dream','Nightmare','Recurring Dream','Weird / Unusual',
+    'Fantasy','Funny','Emotional','Romantic','Realistic','Horror','Other'
+  ];
+
+  function readJSON(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === '') return fallback;
+      const parsed = JSON.parse(raw);
+      return parsed ?? fallback;
+    }catch(error){
+      console.warn('WEDIMORA data read failed:', key, error);
+      return fallback;
+    }
+  }
+
+  function writeJSON(key, value){
+    try{
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    }catch(error){
+      console.error('WEDIMORA data write failed:', key, error);
+      return false;
+    }
+  }
+
+  function normalizeUsername(value){
+    return String(value || '')
+      .trim()
+      .replace(/^@+/, '')
+      .toLowerCase();
+  }
+
+  function getUser(){
+    const saved = readJSON(KEY.user, null);
+    if(!saved) return null;
+    return saved;
+  }
+
+  function getCurrentUsername(){
+    const current = localStorage.getItem(KEY.current);
+    if(current) return current;
+    const user = getUser();
+    return user ? user.username : '';
+  }
+
+  function setCurrentUsername(username){
+    if(username) localStorage.setItem(KEY.current, username);
+  }
+
+  function getAllDreams(){
+    const dreams = readJSON(KEY.dreams, []);
+    return Array.isArray(dreams) ? dreams : [];
+  }
+
+  function saveAllDreams(dreams){
+    return writeJSON(KEY.dreams, Array.isArray(dreams) ? dreams : []);
+  }
+
+  function getLoggedInAuthor(){
+    const user = getUser();
+    if(!user) return {
+      name:'Dreamer',
+      username:'dreamer',
+      email:'',
+      id:'guest'
+    };
+    return {
+      name:user.name || 'Dreamer',
+      username:user.username || 'dreamer',
+      email:user.email || '',
+      id: normalizeUsername(user.username || 'dreamer')
+    };
+  }
+
+  function enrichDream(dream){
+    const author = getLoggedInAuthor();
+    const copy = Object.assign({}, dream || {});
+    if(!copy.id) copy.id = Date.now() + Math.random();
+    if(!copy.username) copy.username = author.username;
+    if(!copy.name) copy.name = author.name;
+    if(!copy.authorId) copy.authorId = normalizeUsername(copy.username);
+    if(!copy.category) copy.category = 'Other';
+    if(!Array.isArray(copy.comments)) copy.comments = [];
+    if(typeof copy.likes !== 'number') copy.likes = Number(copy.likes) || 0;
+    if(typeof copy.liked !== 'boolean') copy.liked = false;
+    if(typeof copy.saved !== 'boolean') copy.saved = false;
+    if(!copy.date) copy.date = new Date().toLocaleString();
+    return copy;
+  }
+
+  function ensureDreamSchema(){
+    const dreams = getAllDreams();
+    let changed = false;
+    const normalized = dreams.map(item=>{
+      const before = JSON.stringify(item);
+      const after = enrichDream(item);
+      if(JSON.stringify(after) !== before) changed = true;
+      return after;
+    });
+    if(changed) saveAllDreams(normalized);
+    return normalized;
+  }
+
+  function currentAuthorMatches(dream){
+    const current = normalizeUsername(getCurrentUsername());
+    const authorId = normalizeUsername(dream.authorId || dream.username);
+    return !!current && !!authorId && current === authorId;
+  }
+
+  function safeText(value){
+    if(typeof escapeHTML === 'function') return escapeHTML(String(value ?? ''));
+    const div=document.createElement('div');
+    div.textContent=String(value ?? '');
+    return div.innerHTML;
+  }
+
+  function getInitial(name){
+    const text=String(name || 'D').trim();
+    return safeText((text.charAt(0) || 'D').toUpperCase());
+  }
+
+  /* --------------------------------------------------------------
+     AUTHOR-OWNED POST VISIBILITY
+     -------------------------------------------------------------- */
+  window.WEDIMORA_getMyDreams = function(){
+    const dreams = ensureDreamSchema();
+    return dreams.filter(currentAuthorMatches);
+  };
+
+  window.WEDIMORA_refreshMyDreams = function(){
+    const box=document.getElementById('profileDreams');
+    const label=document.getElementById('myDreamsLabel');
+    if(!box) return;
+    const dreams=window.WEDIMORA_getMyDreams();
+    if(label) label.textContent = dreams.length + (dreams.length===1 ? ' dream' : ' dreams');
+    if(!dreams.length){
+      box.innerHTML='<div class="profile-dream-empty">🌙<br><br>You have not posted a dream yet.<br><small>Your new posts will appear here automatically.</small></div>';
+      return;
+    }
+    box.innerHTML=dreams.map(d=>renderOwnedDreamCard(d)).join('');
+  };
+
+  function renderOwnedDreamCard(dream){
+    const comments=Array.isArray(dream.comments)?dream.comments:[];
+    const title=safeText(dream.title || 'Untitled Dream');
+    const story=safeText(dream.story || '');
+    const category=safeText(dream.category || 'Other');
+    const date=safeText(dream.date || '');
+    const status=dream.archived ? 'Archived' : (dream.pinned ? 'Pinned' : 'Published');
+    return `
+      <article class="profile-dream" data-dream-id="${safeText(dream.id)}">
+        <div class="profile-dream-top">
+          <div>
+            <div class="profile-dream-title">${title}</div>
+            <div class="profile-dream-meta">#${category} · ${date}</div>
+          </div>
+          <span class="profile-dream-status">${safeText(status)}</span>
+        </div>
+        <div class="profile-dream-text">${story}</div>
+        <div class="profile-dream-actions">
+          <button class="action-btn" onclick="WEDIMORA_openOwnedPost(${JSON.stringify(dream.id)})">View</button>
+          <button class="action-btn" onclick="WEDIMORA_toggleArchive(${JSON.stringify(dream.id)})">${dream.archived?'Unarchive':'Archive'}</button>
+        </div>
+      </article>`;
+  }
+
+  window.WEDIMORA_openOwnedPost=function(id){
+    const target=ensureDreamSchema().find(d=>String(d.id)===String(id));
+    if(!target) return;
+    if(typeof setCategoryFilter==='function') setCategoryFilter('All');
+    if(typeof showScreen==='function') showScreen('home');
+    setTimeout(()=>{
+      const cards=[...document.querySelectorAll('.dream-card')];
+      const card=cards.find(el=>el.textContent.includes(target.title || 'Untitled Dream'));
+      if(card) card.scrollIntoView({behavior:'smooth',block:'center'});
+    },80);
+  };
+
+  window.WEDIMORA_toggleArchive=function(id){
+    const dreams=ensureDreamSchema();
+    const target=dreams.find(d=>String(d.id)===String(id));
+    if(!target) return;
+    target.archived=!target.archived;
+    saveAllDreams(dreams);
+    window.WEDIMORA_refreshMyDreams();
+    if(typeof displayDreams==='function') displayDreams();
+  };
+
+  /* --------------------------------------------------------------
+     POST CREATION
+     -------------------------------------------------------------- */
+  window.WEDIMORA_postDream=function(){
+    const titleEl=document.getElementById('dreamTitle');
+    const storyEl=document.getElementById('dreamStory');
+    const categoryEl=document.getElementById('dreamCategory');
+    if(!titleEl || !storyEl || !categoryEl){
+      alert('Create Dream screen is not ready yet.');
+      return;
+    }
+    const title=titleEl.value.trim();
+    const story=storyEl.value.trim();
+    const category=categoryEl.value;
+    if(!title || !story || !category){
+      alert('Please fill title, dream story and category.');
+      return;
+    }
+    const author=getLoggedInAuthor();
+    const dream={
+      id:Date.now()+Math.random(),
+      title:title,
+      story:story,
+      category:category,
+      username:author.username,
+      name:author.name,
+      authorId:normalizeUsername(author.username),
+      authorEmail:author.email,
+      date:new Date().toLocaleString(),
+      createdAt:new Date().toISOString(),
+      likes:0,
+      liked:false,
+      saved:false,
+      archived:false,
+      pinned:false,
+      comments:[]
+    };
+    const dreams=ensureDreamSchema();
+    dreams.unshift(dream);
+    if(!saveAllDreams(dreams)){
+      alert('The dream could not be saved on this device.');
+      return;
+    }
+    titleEl.value='';
+    storyEl.value='';
+    categoryEl.value='';
+    const counter=document.getElementById('charCount');
+    if(counter) counter.textContent='0';
+    setCurrentUsername(author.username);
+    if(typeof addNotification==='function') addNotification('🌙','Your dream was posted successfully.');
+    alert('Your dream has been posted! 🌙✨');
+    if(typeof showScreen==='function') showScreen('home');
+    setTimeout(()=>{
+      window.WEDIMORA_refreshMyDreams();
+      if(typeof displayDreams==='function') displayDreams();
+    },40);
+  };
+
+  /* Replace the old post function safely. */
+  window.postDream=window.WEDIMORA_postDream;
+
+  /* --------------------------------------------------------------
+     FEED RENDERING
+     -------------------------------------------------------------- */
+  window.WEDIMORA_renderFeed=function(){
+    const feed=document.getElementById('dreamFeed');
+    if(!feed) return;
+    let dreams=ensureDreamSchema();
+    const active=typeof activeCategory !== 'undefined' ? activeCategory : 'All';
+    if(active && active!=='All') dreams=dreams.filter(d=>d.category===active);
+    dreams=dreams.filter(d=>!d.archived);
+    if(!dreams.length){
+      feed.innerHTML=`<div class="empty-message"><div style="font-size:45px">🌙</div><p style="margin-top:15px">No dreams here yet.</p><p style="margin-top:8px;color:#888">Choose another category or share a dream.</p></div>`;
+      return;
+    }
+    feed.innerHTML=dreams.map(renderMasterDreamCard).join('');
+  };
+
+  function renderMasterDreamCard(dream){
+    const comments=Array.isArray(dream.comments)?dream.comments:[];
+    const commentRows=comments.map(c=>`
+      <div class="comment">
+        <div class="comment-avatar">${getInitial(c.name||'D')}</div>
+        <div class="comment-body">
+          <div class="comment-name">${safeText(c.name||'Dreamer')}</div>
+          <div class="comment-text">${safeText(c.text||'')}</div>
+        </div>
+      </div>`).join('');
+    const liked=dream.liked===true;
+    return `
+      <article class="dream-card" data-dream-id="${safeText(dream.id)}">
+        <div class="dream-user">
+          <div class="avatar">${getInitial(dream.name)}</div>
+          <div>
+            <div class="username">${safeText(dream.name||'Dreamer')}</div>
+            <div class="dream-date">@${safeText(dream.username||'dreamer')} · ${safeText(dream.date||'')}</div>
+          </div>
+        </div>
+        <div class="dream-title">${safeText(dream.title||'Untitled Dream')}</div>
+        <div class="dream-story">${safeText(dream.story||'')}</div>
+        <div class="category">#${safeText(dream.category||'Other')}</div>
+        <div class="actions">
+          <button class="action-btn smooth-action ${liked?'liked':''}" onclick="toggleLike(${JSON.stringify(dream.id)})">${liked?'♥':'♡'} ${Number(dream.likes)||0}</button>
+          <button class="action-btn smooth-action" onclick="toggleComments(${JSON.stringify(dream.id)})">💬 ${comments.length}</button>
+          <button class="action-btn smooth-action" onclick="saveDream(${JSON.stringify(dream.id)})">🔖 ${dream.saved?'Saved':'Save'}</button>
+          <button class="action-btn smooth-action" onclick="openReportModal(${JSON.stringify(dream.id)})">⚑ Report</button>
+        </div>
+        <div id="comments-${safeText(dream.id)}" class="comments-section" style="display:none">
+          <div class="comments-header"><div class="comments-title">Comments 💬</div><button class="close-section-btn" onclick="toggleComments(${JSON.stringify(dream.id)})">✕</button></div>
+          ${commentRows || '<div class="no-comments">No comments yet. Be the first! 🌙</div>'}
+          <div class="comment-input-area"><input id="comment-input-${safeText(dream.id)}" class="comment-input" type="text" maxlength="500" placeholder="Write a comment..."><button class="comment-post-btn" onclick="addComment(${JSON.stringify(dream.id)})">Post</button></div>
+        </div>
+      </article>`;
+  }
+
+  /* Keep category filtering connected to the master feed. */
+  window.setCategoryFilter=function(category){
+    const chosen=categories.includes(category)?category:'All';
+    window.WEDIMORA_activeCategory=chosen;
+    try{activeCategory=chosen;}catch(error){}
+    const label=document.getElementById('activeCategoryLabel');
+    if(label) label.textContent=chosen==='All'?'All dreams':chosen;
+    const bar=document.getElementById('dreamCategoryBar');
+    if(bar){
+      bar.innerHTML=categories.map(c=>`<button class="cat-chip ${c===chosen?'active':''}" onclick="setCategoryFilter(${JSON.stringify(c)})">${safeText(c)}</button>`).join('');
+    }
+    window.WEDIMORA_renderFeed();
+  };
+
+  /* --------------------------------------------------------------
+     SEARCH: DREAMS + USERNAME + OWN ID
+     -------------------------------------------------------------- */
+  window.WEDIMORA_search=function(){
+    const input=document.getElementById('searchInput');
+    const results=document.getElementById('searchResults');
+    if(!input || !results) return;
+    const query=input.value.trim();
+    const normalized=normalizeUsername(query);
+    const dreams=ensureDreamSchema();
+    const own=getLoggedInAuthor();
+    if(!query){
+      results.innerHTML='<div class="search-empty">🔎<br><br>Search dreams, usernames or categories.</div>';
+      return;
+    }
+    const matchingDreams=dreams.filter(d=>{
+      const haystack=[d.title,d.story,d.category,d.username,d.name].map(x=>String(x||'').toLowerCase()).join(' ');
+      return haystack.includes(query.toLowerCase()) || normalizeUsername(d.username).includes(normalized);
+    });
+    const ownMatch=normalized && normalizeUsername(own.username)===normalized;
+    const userSection=ownMatch ? `
+      <div class="search-section-title">Profile</div>
+      <div class="search-result">
+        <div class="search-result-user">
+          <div class="search-result-avatar">${getInitial(own.name)}</div>
+          <div><strong>${safeText(own.name)}</strong><div class="search-result-meta">@${safeText(own.username)}</div></div>
+        </div>
+        <div class="search-result-text">Your profile · ${window.WEDIMORA_getMyDreams().length} posted dreams</div>
+        <button class="search-result-open" onclick="showScreen('profile')">Open profile</button>
+      </div>` : '';
+    if(!matchingDreams.length && !ownMatch){
+      results.innerHTML='<div class="search-empty">🌙<br><br>No matching dreams or users found.</div>';
+      return;
+    }
+    const dreamSection=matchingDreams.length ? `
+      <div class="search-section-title">Dreams · ${matchingDreams.length}</div>
+      ${matchingDreams.map(d=>`
+        <div class="search-result" onclick="WEDIMORA_openSearchDream(${JSON.stringify(d.id)})">
+          <div class="search-result-title">${safeText(d.title||'Untitled Dream')}</div>
+          <div class="search-result-meta">@${safeText(d.username||'dreamer')} · ${safeText(d.category||'Other')} · ${safeText(d.date||'')}</div>
+          <div class="search-result-text">${safeText((d.story||'').slice(0,240))}${(d.story||'').length>240?'...':''}</div>
+        </div>`).join('')}` : '';
+    results.innerHTML=userSection + dreamSection;
+  };
+
+  window.searchDreams=window.WEDIMORA_search;
+
+  window.WEDIMORA_openSearchDream=function(id){
+    const dream=ensureDreamSchema().find(d=>String(d.id)===String(id));
+    if(!dream) return;
+    try{activeCategory='All';}catch(error){}
+    if(typeof showScreen==='function') showScreen('home');
+    setTimeout(()=>{
+      const card=document.querySelector(`[data-dream-id="${CSS.escape(String(id))}"]`);
+      if(card){
+        card.scrollIntoView({behavior:'smooth',block:'center'});
+        card.animate([
+          {transform:'scale(1)'},
+          {transform:'scale(1.015)'},
+          {transform:'scale(1)'}
+        ],{duration:420});
+      }
+    },70);
+  };
+
+  /* --------------------------------------------------------------
+     LOGIN / REGISTER CURRENT USER FIX
+     -------------------------------------------------------------- */
+  const oldLogin=window.loginUser;
+  window.loginUser=function(){
+    const enteredUser=document.getElementById('loginUser')?.value.trim() || '';
+    const enteredPassword=document.getElementById('loginPassword')?.value || '';
+    const saved=getUser();
+    if(!saved){alert('No account found. Please register first.');return;}
+    const match=enteredUser===saved.username || enteredUser===saved.email;
+    if(match && enteredPassword===saved.password){
+      setCurrentUsername(saved.username);
+      alert('Login successful! 🌙');
+      if(typeof showScreen==='function') showScreen('home');
+      return;
+    }
+    alert('Wrong username/email or password.');
+  };
+
+  const oldRegister=window.registerUser;
+  window.registerUser=function(){
+    const name=document.getElementById('regName')?.value.trim() || '';
+    const username=document.getElementById('regUsername')?.value.trim() || '';
+    const email=document.getElementById('regEmail')?.value.trim() || '';
+    const dob=document.getElementById('regDob')?.value || '';
+    const gender=document.getElementById('regGender')?.value || '';
+    const password=document.getElementById('regPassword')?.value || '';
+    if(!name||!username||!email||!dob||!gender||!password){alert('Please fill all fields.');return;}
+    const user={name,username,email,dob,gender,password,bio:'Dreams are stories waiting to be remembered. 🌙',followers:0,following:0,followingUsers:[]};
+    writeJSON(KEY.user,user);
+    setCurrentUsername(username);
+    alert('Account created successfully! 🌙');
+    if(typeof showScreen==='function') showScreen('login');
+  };
+
+  /* --------------------------------------------------------------
+     PROFILE REFRESH
+     -------------------------------------------------------------- */
+  window.WEDIMORA_refreshProfile=function(){
+    const user=getUser();
+    if(!user) return;
+    const name=document.getElementById('profileName');
+    const username=document.getElementById('profileUsername');
+    const bio=document.getElementById('profileBio');
+    const avatar=document.getElementById('profileAvatar');
+    const dreams=window.WEDIMORA_getMyDreams();
+    if(name) name.textContent=user.name || 'Dreamer';
+    if(username) username.textContent='@'+(user.username || 'dreamer');
+    if(bio) bio.textContent=user.bio || 'Dreams are stories waiting to be remembered. 🌙';
+    if(avatar) avatar.textContent=(user.name||'D').charAt(0).toUpperCase();
+    const count=document.getElementById('dreamCount');
+    if(count) count.textContent=dreams.length;
+    const followers=document.getElementById('followerCount');
+    if(followers) followers.textContent=Number(user.followers)||0;
+    const following=document.getElementById('followingCount');
+    if(following) following.textContent=Number(user.following)||0;
+    window.WEDIMORA_refreshMyDreams();
+  };
+
+  /* --------------------------------------------------------------
+     SCREEN REFRESH WRAPPER
+     -------------------------------------------------------------- */
+  const baseShowScreen=window.showScreen;
+  window.showScreen=function(screenId){
+    if(typeof baseShowScreen==='function') baseShowScreen(screenId);
+    if(screenId==='home'){
+      setTimeout(()=>{
+        if(typeof renderCategoryFilter==='function') renderCategoryFilter();
+        window.WEDIMORA_renderFeed();
+      },0);
+    }
+    if(screenId==='profile') setTimeout(window.WEDIMORA_refreshProfile,0);
+    if(screenId==='explore') setTimeout(window.WEDIMORA_search,0);
+  };
+
+  /* --------------------------------------------------------------
+     INITIALIZATION
+     -------------------------------------------------------------- */
+  function initMasterPatch(){
+    ensureDreamSchema();
+    const user=getUser();
+    if(user && !localStorage.getItem(KEY.current)) setCurrentUsername(user.username);
+    if(typeof renderCategoryFilter==='function') renderCategoryFilter();
+    const search=document.getElementById('searchInput');
+    if(search){
+      search.setAttribute('autocomplete','off');
+      search.setAttribute('spellcheck','false');
+    }
+    window.WEDIMORA_renderFeed();
+    window.WEDIMORA_refreshProfile();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initMasterPatch);
+  else setTimeout(initMasterPatch,0);
+
+})();
+
+(function WEDIMORA_CHAT_V2(){
+  const _renderChatList = window.renderChatList || renderChatList;
+  window.renderChatList = function(){
+    const list=document.getElementById('chatList');
+    if(!list) return;
+    const chats=getChats();
+    if(!chats.length){
+      list.innerHTML='<div class="empty-state" style="padding:45px 15px;color:#777;text-align:center">✦<br><br>No dream conversations yet.<br><span style="font-size:11px">Search someone above or create a group.</span></div>';
+      return;
+    }
+    list.innerHTML=chats.map((c,i)=>`<div class="chat-row" onclick="openChatRoom(${i})"><div class="chat-avatar">${escapeHTML((c.name||'D').charAt(0).toUpperCase())}</div><div class="chat-meta"><div class="chat-name">${escapeHTML(c.name)}${c.group?' <span style="font-size:10px;color:#777">· group</span>':''}</div><div class="chat-preview">${escapeHTML(c.last||'No messages yet')}</div></div><div class="chat-time">${escapeHTML(c.time||'now')}</div></div>`).join('');
+  };
+  window.openChat=function(){document.getElementById('chatOverlay')?.classList.add('open');renderChatList();};
+  window.toggleChatExtras=toggleChatExtras;
+  setTimeout(()=>renderChatList(),0);
+})();
+
+
+/* ===== WEDIMORA V3 LIVE CHAT ENGINE ===== */
+(function WEDIMORA_LIVE_CHAT_V3(){
+  const CHANNEL_NAME='dreamora_live_chat_v3';
+  let liveChannel=null;
+  try{ liveChannel=new BroadcastChannel(CHANNEL_NAME); }catch(e){ liveChannel=null; }
+  let typingTimer=null;
+  let typingRemoteTimer=null;
+  let lastRenderedMessageCount=0;
+  let lastChatSnapshot='';
+
+  const esc=(s)=>{ if(typeof escapeHTML==='function') return escapeHTML(String(s??'')); return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); };
+  const nowTime=()=>new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  const uid=()=>`m_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+  const getIdentity=()=>{
+    let username=localStorage.getItem('dreamoraCurrentUser')||localStorage.getItem('dreamoraUsername')||'you';
+    username=String(username).trim()||'you';
+    return {username,name:username};
+  };
+  const chatKey=(c,i)=>String(c.id||c.chatId||`chat_${i}_${c.name||''}`).replace(/[^a-zA-Z0-9_-]/g,'_');
+  const readChats=()=>{ try{return typeof getChats==='function'?getChats():(JSON.parse(localStorage.getItem('dreamoraChats')||'[]')||[]);}catch(e){return [];} };
+  const writeChats=(chats)=>{ try{ if(typeof saveChats==='function') saveChats(chats); else localStorage.setItem('dreamoraChats',JSON.stringify(chats)); }catch(e){} };
+  const getActiveIndex=()=> (typeof activeChat!=='undefined' ? activeChat : null);
+  const getActive=()=>{const i=getActiveIndex();const cs=readChats();return i===null||!cs[i]?null:{chat:cs[i],index:i,chats:cs};};
+
+  function ensureIds(){
+    const chats=readChats(); let changed=false;
+    chats.forEach((c,i)=>{if(!c.id){c.id=`chat_${Date.now()}_${i}_${Math.random().toString(36).slice(2,6)}`;changed=true;} if(!Array.isArray(c.messages)) {c.messages=[];changed=true;} c.messages.forEach(m=>{if(!m.id)m.id=uid(); if(!m.time)m.time=nowTime();});});
+    if(changed) writeChats(chats);
+  }
+
+  function typingBox(){
+    const room=document.getElementById('chatRoom'); if(!room)return null;
+    let el=document.getElementById('liveTypingIndicator');
+    if(!el){
+      el=document.createElement('div'); el.id='liveTypingIndicator'; el.className='live-typing';
+      el.innerHTML='<div class="typing-stars" aria-hidden="true"><span>✦</span><span>✦</span><span>✦</span></div><span id="liveTypingText">Someone is typing…</span>';
+      const msg=document.getElementById('messageList');
+      if(msg && msg.parentNode) msg.parentNode.insertBefore(el,msg.nextSibling);
+    }
+    return el;
+  }
+  function setTypingVisible(show,name){
+    const el=typingBox(); if(!el)return;
+    const txt=document.getElementById('liveTypingText'); if(txt)txt.textContent=`${name||'Someone'} is typing…`;
+    el.classList.toggle('show',!!show);
+    const status=document.querySelector('#chatRoom .room-status');
+    if(status) {status.classList.toggle('live',!!show);status.textContent=show?'typing…':'WEDIMORA chat';}
+  }
+
+  function broadcast(payload){ try{liveChannel&&liveChannel.postMessage(payload);}catch(e){} }
+  function emitTyping(){
+    const a=getActive(); if(!a)return;
+    const identity=getIdentity();
+    broadcast({type:'typing',chatId:chatKey(a.chat,a.index),name:identity.name,username:identity.username,at:Date.now()});
+    clearTimeout(typingTimer);
+    typingTimer=setTimeout(()=>broadcast({type:'stopTyping',chatId:chatKey(a.chat,a.index),username:identity.username,at:Date.now()}),1300);
+  }
+
+  function handleInput(){
+    const input=document.getElementById('messageInput'); if(!input)return;
+    if(input.value.trim()) emitTyping();
+  }
+
+  function renderLiveMessages(force=false){
+    const a=getActive(); if(!a)return;
+    const box=document.getElementById('messageList'); if(!box)return;
+    const msgs=a.chat.messages||[];
+    const sig=msgs.map(m=>m.id||m.text||'').join('|');
+    if(!force && sig===lastChatSnapshot)return;
+    const oldCount=lastRenderedMessageCount;
+    lastChatSnapshot=sig; lastRenderedMessageCount=msgs.length;
+    const html=msgs.length?msgs.map(m=>{
+      const mine=!!m.mine;
+      const sender=m.senderName||m.username|| (mine?'You':a.chat.name||'Dreamer');
+      return `<div class="message-row ${mine?'mine':'theirs'}"><div class="message-sender">${esc(sender)}</div><div class="bubble ${mine?'mine':''} ${msgs.length>oldCount?'new-message':''}">${esc(m.text||'')}<div class="message-time">${esc(m.time||'')}</div></div></div>`;
+    }).join(''):'<div style="text-align:center;color:#666;padding:35px 10px">Start the conversation 🌙</div>';
+    box.innerHTML=html;
+    box.scrollTop=box.scrollHeight;
+  }
+
+  function saveIncoming(chatId,msg){
+    const chats=readChats();
+    let idx=chats.findIndex((c,i)=>chatKey(c,i)===chatId);
+    if(idx<0)return;
+    chats[idx].messages=chats[idx].messages||[];
+    if(!chats[idx].messages.some(m=>m.id===msg.id)){
+      chats[idx].messages.push(msg); chats[idx].last=msg.text||''; chats[idx].time=msg.time||nowTime(); writeChats(chats);
+    }
+    if(getActiveIndex()===idx){lastChatSnapshot='';renderLiveMessages(true);}
+    if(typeof renderChatList==='function')renderChatList();
+  }
+
+  if(liveChannel){
+    liveChannel.onmessage=(ev)=>{
+      const p=ev.data||{};
+      const a=getActive();
+      if(p.type==='typing'){
+        if(!a || chatKey(a.chat,a.index)!==p.chatId)return;
+        if(p.username===getIdentity().username)return;
+        setTypingVisible(true,p.name||p.username);
+        clearTimeout(typingRemoteTimer); typingRemoteTimer=setTimeout(()=>setTypingVisible(false),1700);
+      } else if(p.type==='stopTyping'){
+        if(a && chatKey(a.chat,a.index)===p.chatId) setTypingVisible(false);
+      } else if(p.type==='message' && p.message){
+        saveIncoming(p.chatId,p.message);
+      }
+    };
+  }
+
+  const originalOpenRoom=window.openChatRoom;
+  window.openChatRoom=function(index){
+    if(typeof originalOpenRoom==='function')originalOpenRoom(index);
+    setTimeout(()=>{ensureIds();lastChatSnapshot='';lastRenderedMessageCount=0;setTypingVisible(false);renderLiveMessages(true);const i=document.getElementById('messageInput');if(i){i.removeEventListener('input',handleInput);i.addEventListener('input',handleInput);}},30);
+  };
+
+  const originalSend=window.sendChatMessage;
+  window.sendChatMessage=function(){
+    const a=getActive(); const input=document.getElementById('messageInput');
+    if(!a||!input)return;
+    const text=input.value.trim(); if(!text)return;
+    const identity=getIdentity();
+    const msg={id:uid(),text,mine:true,username:identity.username,senderName:identity.name,time:nowTime()};
+    const chats=readChats();
+    const idx=a.index; if(!chats[idx])return;
+    chats[idx].messages=chats[idx].messages||[]; chats[idx].messages.push(msg); chats[idx].last=text; chats[idx].time=msg.time; writeChats(chats);
+    input.value='';
+    broadcast({type:'stopTyping',chatId:chatKey(chats[idx],idx),username:identity.username,at:Date.now()});
+    setTypingVisible(false);
+    lastChatSnapshot='';renderLiveMessages(true);
+    if(typeof renderChatList==='function')renderChatList();
+    if(typeof triggerNightEffect==='function' && /\b(good\s*night|goodnight|gn|sweet\s*dreams)\b/i.test(text)) triggerNightEffect('Good night 🌙');
+    broadcast({type:'message',chatId:chatKey(chats[idx],idx),message:{...msg,mine:false}});
+  };
+
+  const originalStart=window.startChatFromInput;
+  window.startChatFromInput=function(){
+    if(typeof originalStart==='function')originalStart();
+    setTimeout(()=>{ensureIds();if(typeof renderChatList==='function')renderChatList();},40);
+  };
+
+  function addLiveNote(){
+    const panel=document.querySelector('#chatOverlay .chat-panel');
+    if(!panel||panel.querySelector('.live-note'))return;
+    const note=document.createElement('div');note.className='live-note';
+    note.innerHTML='<strong>Live chat demo:</strong> typing + messages sync instantly between WEDIMORA tabs/windows on this browser.';
+    const list=document.getElementById('chatList'); if(list)list.parentNode.insertBefore(note,list);
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    ensureIds();addLiveNote();
+    const input=document.getElementById('messageInput');
+    if(input)input.addEventListener('input',handleInput);
+    setTimeout(()=>{if(typeof renderChatList==='function')renderChatList();},100);
+  });
+  setTimeout(()=>{ensureIds();addLiveNote();const input=document.getElementById('messageInput');if(input)input.addEventListener('input',handleInput);},250);
+})();
+
+
+/* ===== CHAT VISIBILITY FIX V4 ===== */
+(function WEDIMORA_CHAT_VISIBILITY_FIX(){
+  function updateLauncher(){
+    const launcher=document.getElementById('chatLauncher');
+    if(!launcher)return;
+    const home=document.getElementById('home');
+    const show=!!(home&&home.classList.contains('active'));
+    launcher.classList.toggle('show',show);
+  }
+  const oldOpen=window.openChat;
+  window.openChat=function(){
+    const overlay=document.getElementById('chatOverlay');
+    if(!overlay)return;
+    overlay.classList.add('open');
+    if(typeof renderChatList==='function')renderChatList();
+  };
+  const oldShow=window.showScreen;
+  window.showScreen=function(id){
+    if(typeof oldShow==='function')oldShow(id);
+    setTimeout(updateLauncher,0);
+  };
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(updateLauncher,50));
+  setTimeout(updateLauncher,100);
+})();
+</script>
+
+
+<script id="dreamora-chat-v5-patch">
+/* WEDIMORA CHAT V5 — prototype enhancements */
+let dreamoraRecorder=null, dreamoraRecordStarted=0, dreamoraAudioChunks=[];
+const dreamoraStickers=['🌙','✨','🌌','💭','😴','🥹','😂','❤️','🫶','☁️','⭐','🦋','🌷','🖤','🤍','🫂','😭','😳','😌','👀'];
+function toggleStickerPanel(){
+  const p=document.getElementById('stickerPanel'); if(!p)return;
+  if(!p.innerHTML)p.innerHTML=dreamoraStickers.map(x=>`<button class="sticker-btn" onclick="sendSticker('${x}')">${x}</button>`).join('');
+  p.classList.toggle('open');
+}
+function sendSticker(sticker){
+  const p=document.getElementById('stickerPanel'); if(p)p.classList.remove('open');
+  if(activeChat===null)return;
+  const chats=getChats(); chats[activeChat].messages=chats[activeChat].messages||[];
+  chats[activeChat].messages.push({text:sticker,mine:true,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),sticker:true});
+  chats[activeChat].last=sticker; saveChats(chats); renderMessages();
+}
+async function toggleVoiceRecording(){
+  if(activeChat===null)return;
+  const btn=document.getElementById('voiceRecordBtn');
+  if(dreamoraRecorder && dreamoraRecorder.state==='recording'){
+    dreamoraRecorder.stop(); if(btn){btn.classList.remove('recording');btn.textContent='🎙';}
+    return;
+  }
+  if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder){alert('Voice recording is not supported by this browser.');return;}
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    dreamoraAudioChunks=[]; dreamoraRecordStarted=Date.now();
+    dreamoraRecorder=new MediaRecorder(stream);
+    dreamoraRecorder.ondataavailable=e=>{if(e.data.size)dreamoraAudioChunks.push(e.data)};
+    dreamoraRecorder.onstop=()=>{
+      stream.getTracks().forEach(t=>t.stop());
+      const blob=new Blob(dreamoraAudioChunks,{type:'audio/webm'}); const url=URL.createObjectURL(blob);
+      const seconds=Math.max(1,Math.round((Date.now()-dreamoraRecordStarted)/1000));
+      const chats=getChats(); chats[activeChat].messages=chats[activeChat].messages||[];
+      chats[activeChat].messages.push({text:'🎤 Voice message',mine:true,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),voiceUrl:url,duration:seconds});
+      chats[activeChat].last=`🎤 Voice message · ${seconds}s`; saveChats(chats); renderMessages(); dreamoraRecorder=null;
+    };
+    dreamoraRecorder.start(); if(btn){btn.classList.add('recording');btn.textContent='⏹';}
+  }catch(e){alert('Microphone permission was not granted. You can still use every other chat feature.');}
+}
+const _renderMessagesV5=renderMessages;
+renderMessages=function(){
+  const box=document.getElementById('messageList'); if(!box||activeChat===null)return;
+  const chats=getChats(), msgs=chats[activeChat]?.messages||[];
+  box.innerHTML=msgs.length?msgs.map(m=>{
+    if(m.voiceUrl) return `<div class="bubble ${m.mine?'mine':''}"><div class="voice-bubble">🎤 <audio controls src="${m.voiceUrl}"></audio></div><div class="message-time">${escapeHTML(m.time||'')} · ${m.duration||1}s</div></div>`;
+    const txt=escapeHTML(m.text||'');
+    return `<div class="bubble ${m.mine?'mine':''}${m.sticker?' sticker-bubble':''}">${txt}<div class="message-time">${escapeHTML(m.time||'')}</div></div>`;
+  }).join(''):'<div style="text-align:center;color:#666;padding:35px 10px">Start the conversation 🌙</div>';
+  box.scrollTop=box.scrollHeight;
+};
+/* Close sticker picker when opening the attachment tray. */
+const _toggleChatExtrasV5=toggleChatExtras;
+toggleChatExtras=function(){const p=document.getElementById('stickerPanel');if(p)p.classList.remove('open');_toggleChatExtrasV5();};
+</script>
+
+<script id="dreamora-chat-visible-v6">
+(function WEDIMORA_CHAT_VISIBLE_V6(){
+  function addTopChat(){
+    document.querySelectorAll('.topbar').forEach(function(top){
+      if(top.querySelector('.dreamora-chat-top-btn')) return;
+      var b=document.createElement('button');
+      b.className='create-top-btn dreamora-chat-top-btn';
+      b.type='button';
+      b.textContent='💬 Chat';
+      b.title='Open WEDIMORA Chat';
+      b.onclick=function(e){e.preventDefault();e.stopPropagation();openChat();};
+      b.style.marginLeft='8px';
+      top.appendChild(b);
+    });
+  }
+  function refresh(){
+    addTopChat();
+    var l=document.getElementById('chatLauncher');
+    if(l) l.style.display='none';
+    document.querySelectorAll('.dreamora-chat-top-btn').forEach(function(b){
+      var home=document.getElementById('home');
+      b.style.display=(home && home.classList.contains('active'))?'inline-flex':'none';
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(refresh,50);});
+  else setTimeout(refresh,50);
+  setInterval(refresh,1200);
+})();
+</script>
+
+<button class="wm-menu-btn" id="wmMenuBtn" aria-label="Wedimora features">✦</button>
+
+<div class="wm-overlay" id="wmOverlay">
+  <div class="wm-modal">
+    <button class="wm-close" onclick="wmClose()">✕</button>
+    <h2>Wedimora ✦</h2>
+    <div class="wm-muted">Master feature center — frontend layer for the full app plan.</div>
+    <div class="wm-tabs">
+      <button class="wm-tab active" onclick="wmTab('social',this)">Social</button>
+      <button class="wm-tab" onclick="wmTab('dreams',this)">Dreams</button>
+      <button class="wm-tab" onclick="wmTab('memorie',this)">Memorie</button>
+      <button class="wm-tab" onclick="wmTab('safety',this)">Safety</button>
+      <button class="wm-tab" onclick="wmTab('privacy',this)">Privacy</button>
+      <button class="wm-tab" onclick="wmTab('tools',this)">Tools</button>
+    </div>
+
+    <div id="wmSocial" class="wm-panel">
+      <div class="wm-grid">
+        <div class="wm-card"><b>Search & Explore</b><div class="wm-muted">Users, usernames, dreams, categories and hashtags.</div><button onclick="showScreen('explore');wmClose()">Open Search</button></div>
+        <div class="wm-card"><b>Notifications</b><div class="wm-muted">Likes, comments, follows, requests, mentions, tags and Memorie.</div><button onclick="showScreen('notifications');wmClose()">Open Alerts</button></div>
+        <div class="wm-card"><b>Follow / Friend Requests</b><div class="wm-muted">Pending, received, sent, accept, reject, remove and unfollow states.</div><button onclick="wmNotice('Request center is ready as a UI layer; Supabase tables/RLS will make it multi-user.')">Manage Requests</button></div>
+        <div class="wm-card"><b>Message Requests</b><div class="wm-muted">Chat can be gated behind an accepted request.</div><button onclick="openChat();wmClose()">Open Chat</button></div>
+      </div>
+    </div>
+
+    <div id="wmDreams" class="wm-panel" style="display:none">
+      <div class="wm-card">
+        <b>Dream post controls</b>
+        <div class="wm-muted">Title · story · category · mood · date · tags · mentions · privacy · comments · save · share · archive · pin · edit · delete.</div>
+        <div style="margin-top:10px">
+          <span class="wm-pill">Title</span><span class="wm-pill">Category</span><span class="wm-pill">Mood</span><span class="wm-pill">Tags</span><span class="wm-pill">Mentions</span><span class="wm-pill">Privacy</span><span class="wm-pill">Save</span><span class="wm-pill">Share</span>
+        </div>
+        <button onclick="showScreen('create');wmClose()">Create Dream</button>
+      </div>
+      <div class="wm-card" style="margin-top:10px"><b>Post insights</b><div class="wm-muted">Owner-only metrics: views, likes, comments, saves, shares and engagement.</div><button onclick="wmOpenInsights()">Open Insights</button></div>
+    </div>
+
+    <div id="wmMemorie" class="wm-panel" style="display:none">
+      <div class="wm-card">
+        <b>Memorie ✦</b>
+        <div class="wm-muted">24h default story/status with purple ring, photo/video/text/drawing/emoji/stickers, mentions/tags, privacy and views.</div>
+        <input class="wm-input" id="wmMemorieText" maxlength="500" placeholder="Write a Memorie...">
+        <select class="wm-select" id="wmMemoriePrivacy"><option>Everyone</option><option>Friends</option><option>Selected</option><option>Hide from...</option></select>
+        <button class="wm-action" onclick="wmCreateMemorie()">Post Memorie</button>
+        <div id="wmMemorieList" class="wm-list"></div>
+      </div>
+    </div>
+
+    <div id="wmSafety" class="wm-panel" style="display:none">
+      <div class="wm-grid">
+        <div class="wm-card"><b>Report</b><div class="wm-muted">Report post, comment, account, Memorie or message with reason/evidence.</div><button onclick="wmReport()">Report content</button></div>
+        <div class="wm-card"><b>Block / Mute / Restrict</b><div class="wm-muted">Local controls now; server enforcement will come with Supabase RLS/backend validation.</div><button onclick="wmSafetyAction('Blocked')">Block user</button></div>
+        <div class="wm-card"><b>Child-safe / harmful content</b><div class="wm-muted">Safety review workflow placeholder for moderation rules.</div><button onclick="wmNotice('Safety queue marked. Real moderation actions require backend/admin controls.')">Safety review</button></div>
+        <div class="wm-card"><b>Evidence</b><div class="wm-muted">Evidence upload UI should be connected to a private storage bucket with strict access rules.</div><button onclick="wmEvidence()">Choose evidence</button></div>
+      </div>
+      <input id="wmEvidenceInput" type="file" accept="image/*,video/*" style="display:none" onchange="wmNotice('Evidence selected. Do not upload sensitive evidence until the private Supabase storage/RLS layer is configured.')">
+    </div>
+
+    <div id="wmPrivacy" class="wm-panel" style="display:none">
+      <div class="wm-card">
+        <b>Privacy controls</b>
+        <div class="wm-row"><span>Account visibility</span><select id="wmAccountPrivacy" class="wm-select" style="width:180px;margin:0"><option>Public</option><option>Private</option></select></div>
+        <div class="wm-row"><span>Followers visibility</span><select id="wmFollowersPrivacy" class="wm-select" style="width:180px;margin:0"><option>Everyone</option><option>Friends</option><option>Only me</option></select></div>
+        <div class="wm-row"><span>Following visibility</span><select id="wmFollowingPrivacy" class="wm-select" style="width:180px;margin:0"><option>Everyone</option><option>Friends</option><option>Only me</option></select></div>
+        <div class="wm-row"><span>Memorie default</span><select id="wmMemorieDefault" class="wm-select" style="width:180px;margin:0"><option>Everyone</option><option>Friends</option><option>Selected</option></select></div>
+        <button class="wm-action" onclick="wmSavePrivacy()">Save privacy settings</button>
+      </div>
+      <div class="wm-card" style="margin-top:10px"><b>Data minimization</b><div class="wm-muted">The frontend must never contain Supabase service-role/admin secrets or passwords. Public profile data and private account data should be separated with RLS.</div></div>
+    </div>
+
+    <div id="wmTools" class="wm-panel" style="display:none">
+      <div class="wm-grid">
+        <div class="wm-card"><b>QR Profile</b><div class="wm-muted">Public profile identifier only — never encode passwords or private data.</div><button onclick="wmOpenQR()">Open QR tool</button></div>
+        <div class="wm-card"><b>Share</b><div class="wm-muted">Share a dream/profile through chat or copy a public link.</div><button onclick="wmShare()">Share</button></div>
+        <div class="wm-card"><b>Post insights</b><div class="wm-muted">Quick owner-only metrics view.</div><button onclick="wmOpenInsights()">Insights</button></div>
+        <div class="wm-card"><b>Settings</b><div class="wm-muted">Open the existing settings screen.</div><button onclick="showScreen('settings');wmClose()">Settings</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wm-overlay" id="wmInsightsOverlay">
+  <div class="wm-modal">
+    <button class="wm-close" onclick="wmCloseId('wmInsightsOverlay')">✕</button>
+    <h2>Post Insights</h2>
+    <div id="wmInsightBody" class="wm-list"></div>
+  </div>
+</div>
+
+<div class="wm-overlay" id="wmQROverlay">
+  <div class="wm-modal">
+    <button class="wm-close" onclick="wmCloseId('wmQROverlay')">✕</button>
+    <h2>Profile QR</h2>
+    <div class="wm-muted">Public identifier only.</div>
+    <div id="wmQRBox" style="margin:22px auto;text-align:center;font-size:54px">▦</div>
+    <div id="wmQRText" class="wm-item"></div>
+    <button class="wm-action" onclick="navigator.clipboard?.writeText(document.getElementById('wmQRText').textContent);wmNotice('Public profile link copied.')">Copy public link</button>
+  </div>
+</div>
+
+
+<script id="wedimora-master-feature-layer">
+(function(){
+  const KEY='wedimoraMasterFeatureState';
+  const getState=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}};
+  const saveState=s=>localStorage.setItem(KEY,JSON.stringify(s));
+  const $=id=>document.getElementById(id);
+
+  window.wmNotice=function(msg){alert('Wedimora\\n\\n'+msg)};
+  window.wmClose=function(){$('wmOverlay')?.classList.remove('open')};
+  window.wmCloseId=function(id){$(id)?.classList.remove('open')};
+  window.wmTab=function(name,btn){
+    document.querySelectorAll('#wmOverlay .wm-panel').forEach(x=>x.style.display='none');
+    const p=$('wm'+name.charAt(0).toUpperCase()+name.slice(1)); if(p)p.style.display='block';
+    document.querySelectorAll('#wmOverlay .wm-tab').forEach(x=>x.classList.remove('active')); btn?.classList.add('active');
+    if(name==='memorie') wmRenderMemories();
+  };
+  window.wmOpen=function(){$('wmOverlay')?.classList.add('open')};
+  window.wmCreateMemorie=function(){
+    const text=$('wmMemorieText')?.value.trim(); if(!text)return wmNotice('Write something first.');
+    const s=getState(); s.memories=s.memories||[];
+    s.memories.unshift({text,privacy:$('wmMemoriePrivacy')?.value||'Everyone',createdAt:Date.now(),expiresAt:Date.now()+86400000,views:0,reactions:0});
+    saveState(s); $('wmMemorieText').value=''; wmRenderMemories(); wmNotice('Memorie saved locally for this prototype. The real 24h shared story system will use Supabase.');
+  };
+  window.wmRenderMemories=function(){
+    const box=$('wmMemorieList'); if(!box)return;
+    const s=getState(), now=Date.now(); s.memories=(s.memories||[]).filter(m=>m.expiresAt>now); saveState(s);
+    box.innerHTML=s.memories.length?s.memories.map((m,i)=>`<div class="wm-item"><b>✦ Memorie</b><div style="margin-top:5px">${escapeHTML(m.text)}</div><div class="wm-muted">${escapeHTML(m.privacy)} · ${Math.max(1,Math.ceil((m.expiresAt-now)/3600000))}h left</div><button class="wm-action" onclick="wmDeleteMemorie(${i})">Delete</button></div>`).join(''):'<div class="wm-muted">No active Memorie.</div>';
+  };
+  window.wmDeleteMemorie=function(i){const s=getState();(s.memories||[]).splice(i,1);saveState(s);wmRenderMemories()};
+  window.wmSavePrivacy=function(){
+    const s=getState(); s.privacy={account:$('wmAccountPrivacy').value,followers:$('wmFollowersPrivacy').value,following:$('wmFollowingPrivacy').value,memorie:$('wmMemorieDefault').value}; saveState(s); wmNotice('Privacy preferences saved locally. Server-side RLS must enforce these settings before production.');
+  };
+  window.wmReport=function(){const reason=prompt('Reason for report?');if(!reason)return;const s=getState();s.reports=s.reports||[];s.reports.push({reason,createdAt:Date.now()});saveState(s);wmNotice('Report saved locally. Real reports/evidence need secure backend storage and moderation rules.')};
+  window.wmSafetyAction=function(action){const s=getState();s.safety=s.safety||[];s.safety.push({action,createdAt:Date.now()});saveState(s);wmNotice(action+' action saved locally.')};
+  window.wmEvidence=function(){$('wmEvidenceInput')?.click()};
+  window.wmOpenInsights=function(){
+    const d=(typeof getDreams==='function'?getDreams():[]);
+    const total=d.length;
+    $('wmInsightBody').innerHTML=[
+      ['Dream posts',total],
+      ['Likes','Prototype metric'],
+      ['Comments','Prototype metric'],
+      ['Saves','Prototype metric'],
+      ['Shares','Prototype metric'],
+      ['Views','Requires server-side view events']
+    ].map(x=>`<div class="wm-item"><b>${escapeHTML(String(x[0]))}</b><div class="wm-muted">${escapeHTML(String(x[1]))}</div></div>`).join('');
+    $('wmInsightsOverlay')?.classList.add('open');
+  };
+  window.wmOpenQR=function(){
+    const u=JSON.parse(localStorage.getItem('dreamoraUser')||localStorage.getItem('wedimoraUser')||'{}');
+    const username=u.username||'dreamer';
+    $('wmQRText').textContent=location.origin+location.pathname+'?user='+encodeURIComponent(username);
+    $('wmQROverlay')?.classList.add('open');
+  };
+  window.wmShare=async function(){
+    const text=location.href;
+    if(navigator.share){try{await navigator.share({title:'Wedimora',text:'Check this on Wedimora',url:text});return}catch(e){}}
+    try{await navigator.clipboard.writeText(text);wmNotice('Public link copied.')}catch(e){wmNotice(text)}
+  };
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    $('wmMenuBtn')?.addEventListener('click',wmOpen);
+    const s=getState();
+    if(s.privacy){
+      if($('wmAccountPrivacy'))$('wmAccountPrivacy').value=s.privacy.account||'Public';
+      if($('wmFollowersPrivacy'))$('wmFollowersPrivacy').value=s.privacy.followers||'Everyone';
+      if($('wmFollowingPrivacy'))$('wmFollowingPrivacy').value=s.privacy.following||'Everyone';
+      if($('wmMemorieDefault'))$('wmMemorieDefault').value=s.privacy.memorie||'Everyone';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
